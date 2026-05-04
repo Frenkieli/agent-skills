@@ -234,6 +234,14 @@ outside scope, or clearly invalid. Merge only exact duplicates or findings whose
 smallest correction is the same edit. Record dropped or merged findings with a
 short reason.
 
+After the main agent synthesizes candidate findings, double-check each one before
+showing it to the user. Re-open the evidence location and ask whether the finding
+is actually supported by inspected code, diff, docs, tests, or an explicitly
+labeled inference. Keep the finding only if the problem still holds after this
+check. Drop, merge, or downgrade findings that depend on stale assumptions,
+missing context, duplicated corrections, or speculative impact, and record the
+reason in coverage notes.
+
 Each finding should name the concrete surface, evidence location, why it matters,
 smallest correction, and interactions with other findings.
 
@@ -281,6 +289,8 @@ Before finalizing, check:
 - each requested artifact or batch is covered, blocked, or marked outside scope
 - every finding has concrete surface, evidence location, impact, smallest
   correction, and interaction when relevant
+- every synthesized finding has been double-checked against its cited evidence
+  and is still a real problem
 - inventory items with risk map to `F#`, `Accepted`, or `Outside scope`
 - any dropped or merged batch finding has a reason
 - factual claims are grounded in inspected files, diff, tests, docs, or labeled
