@@ -1,5 +1,5 @@
 ---
-name: meta-project-docs-maintenance
+name: knowledge-project-docs-maintenance
 description: >-
   Maintain project documentation under docs/ as one current source of truth
   across README, living specs, implementation plans, and decision records. Use
@@ -8,7 +8,7 @@ description: >-
   policy, ADRs, implemented plans, README-vs-spec boundaries, spec bloat, or
   post-implementation documentation. Do not use this as a general code-review or
   implementation planning skill unless the requested output is documentation
-  maintenance.
+  maintenance. Formerly named meta-project-docs-maintenance.
 ---
 
 # Project Docs Maintenance

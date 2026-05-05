@@ -1,6 +1,6 @@
 # Agent Skills
 
-适用于 Claude Code 和其他 coding agent 的 skill 合集。
+适用于 Codex 和 GPT agents 的个人 skills 与工作流合集。
 
 ## 安装
 
@@ -27,13 +27,12 @@ npx skills add plimeor/agent-skills --skill ops-url-reader
 | [code-scope-gate](skills/code-scope-gate/SKILL.md) | 编码前的范围门，防止过度实现并收敛到最小正确改动 |
 | [code-standards-gate](skills/code-standards-gate/SKILL.md) | 基于个人代码标准审核 spec、diff 和实现边界，优先检查公开契约、持久化状态和不必要抽象 |
 | [code-test-strategy](skills/code-test-strategy/SKILL.md) | 编码任务中的测试策略门禁，防止测试污染生产代码、过早写测试和实现细节测试 |
-| [knowledge-obsidian-attachment-janitor](skills/knowledge-obsidian-attachment-janitor/SKILL.md) | 清理和整理 Obsidian 附件目录，删除未引用附件并统一重命名已引用文件 |
+| [decision-look-before-leap](skills/decision-look-before-leap/SKILL.md) | 回答、建议或决策前做 look-before-you-leap 检查；上下文惯性风险较高时优先引入独立 subagent 推敲 |
+| [knowledge-project-docs-maintenance](skills/knowledge-project-docs-maintenance/SKILL.md) | 维护项目 docs 分层、语言、命名和 living spec 清理策略 |
+| [meta-code-standards-calibration](skills/meta-code-standards-calibration/SKILL.md) | 对照人类 PR/MR review 校准 code-standards-gate，并判断规则应进入全局 skill、项目规则、tooling 还是保留本地 |
 | [meta-context-engineering-global](skills/meta-context-engineering-global/SKILL.md) | 为全局 rules file 做 context engineering，专注跨任务、跨项目、跨会话都长期成立的规则 |
 | [meta-context-engineering-project](skills/meta-context-engineering-project/SKILL.md) | 为项目层做 context engineering，覆盖 repo-local 规则、任务级 context packing 与项目内漂移诊断 |
-| [meta-look-before-leap](skills/meta-look-before-leap/SKILL.md) | 回答、建议或决策前做 look-before-you-leap 检查；上下文惯性风险较高时优先引入独立 subagent 推敲 |
 | [meta-gpt-prompt-maintenance](skills/meta-gpt-prompt-maintenance/SKILL.md) | 维护和升级面向 GPT 系列模型的 prompt artifact，覆盖 SKILL.md、AGENTS、system/developer prompt、agent workflow、eval 和 grader prompt |
-| [code-evaluate-code-standards](skills/code-evaluate-code-standards/SKILL.md) | 对照人类 PR/MR review 评估和迭代 code-standards-gate，并判断规则应进入全局 skill、项目规则、tooling 还是保留本地 |
-| [meta-project-docs-maintenance](skills/meta-project-docs-maintenance/SKILL.md) | 维护项目 docs 分层、语言、命名和 living spec 清理策略 |
 | [ops-bear](skills/ops-bear/SKILL.md) | 通过 Bear App 本地 CLI 读取、搜索、创建、编辑、整理和打开 Bear 笔记 |
 | [ops-codex-session-maintenance](skills/ops-codex-session-maintenance/SKILL.md) | 维护本地 Codex 会话状态：先检查和备份，再归档旧 session/worktree、轮转日志并生成 handoff |
 | [ops-url-reader](skills/ops-url-reader/SKILL.md) | 通过 defuddle.md 从任意 URL 提取正文内容 |

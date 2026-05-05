@@ -1,5 +1,5 @@
 ---
-name: code-evaluate-code-standards
+name: meta-code-standards-calibration
 description: >-
   Evaluate `code-standards-gate` against human PR/MR review evidence or explicit
   conversation-history corrections. Use when the user asks to benchmark, score,
@@ -7,10 +7,10 @@ description: >-
   skill findings; diagnose missed review standards; or decide whether evidence
   belongs in `code-standards-gate`, project rules, tooling, or should stay local.
   Do not use for ordinary code review; use `code-standards-gate` for reviewing
-  code directly.
+  code directly. Formerly named code-evaluate-code-standards.
 ---
 
-# Evaluate Code Standards
+# Code Standards Calibration
 
 ## Goal
 
