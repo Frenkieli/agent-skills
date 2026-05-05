@@ -7,7 +7,7 @@ description: >-
   skill findings; diagnose missed review standards; or decide whether evidence
   belongs in `code-standards-gate`, project rules, tooling, or should stay local.
   Do not use for ordinary code review; use `code-standards-gate` for reviewing
-  code directly. Formerly named code-evaluate-code-standards.
+  code directly.
 ---
 
 # Code Standards Calibration

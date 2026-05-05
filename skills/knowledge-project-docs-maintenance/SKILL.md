@@ -8,7 +8,7 @@ description: >-
   policy, ADRs, implemented plans, README-vs-spec boundaries, spec bloat, or
   post-implementation documentation. Do not use this as a general code-review or
   implementation planning skill unless the requested output is documentation
-  maintenance. Formerly named meta-project-docs-maintenance.
+  maintenance.
 ---
 
 # Project Docs Maintenance

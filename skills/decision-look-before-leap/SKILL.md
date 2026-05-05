@@ -6,7 +6,6 @@ description: >-
   overconfidence, or obvious-but-missed defects could distort the result.
   Apply a look-before-you-leap sanity check, and prefer independent subagent
   scrutiny when the conversation context is large or inertia risk is high.
-  Formerly named meta-look-before-leap.
 ---
 
 # Look Before You Leap
