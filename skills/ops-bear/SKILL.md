@@ -52,6 +52,45 @@ If neither `bear` nor `/Applications/Bear.app/Contents/MacOS/bearcli` exists,
 report that Bear CLI is unavailable and stop unless the user wants installation
 help.
 
+## Start Bear First
+
+Before any Bear CLI command or `bear mcp-server` operation, make sure the Bear
+app is running. The CLI operates on Bear's local database; running it while the
+app is closed can leave the agent working against stale local state and increase
+the risk of note version conflicts.
+
+Use a background launch so ordinary CLI tasks do not unexpectedly steal focus:
+
+```bash
+if ! pgrep -x Bear >/dev/null; then
+  open -g -a Bear
+  for _ in 1 2 3 4 5 6 7 8 9 10; do
+    pgrep -x Bear >/dev/null && break
+    sleep 0.5
+  done
+fi
+pgrep -x Bear >/dev/null
+```
+
+If Bear cannot be launched or the process check still fails, report that Bear is
+not running and stop before reading or mutating notes.
+
+## Load Bear AGENTS Context
+
+Before reading any requested file, note, or attachment content through this
+skill, first try to find and read an `AGENTS` note in Bear. Treat it as local
+operating context for the requested read. If no relevant `AGENTS` note is found,
+continue with the user's requested read.
+
+```bash
+bear search AGENTS --limit 10 --format json --fields id,title,tags,modified
+bear cat <agents-note-id> --format json
+```
+
+Prefer an exact `AGENTS` title match when the search returns multiple notes. If
+there is no exact match, use the closest project- or task-relevant `AGENTS`
+note only when its title or tags make that relevance clear.
+
 ## Operating Rules
 
 - Prefer `--format json` for read commands when output will be parsed,
