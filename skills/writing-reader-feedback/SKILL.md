@@ -1,7 +1,14 @@
 ---
 name: writing-reader-feedback
 description: >-
-  Simulate a specified reader persona reading an article section by section and report raw reading-experience feedback, not writing advice. Use when the user asks how a specific audience would experience a draft, whether readers can understand it, or wants reader role-play. Trigger on reader simulation, reader feedback, reader perspective, whether readers can understand a piece, reading experience, or testing how a target reader reacts. For general writing improvement, draft polishing, or structural optimization, use writing-blog instead. Formerly named blog-feedback.
+  Simulate a specified reader persona reading an article section by section and
+  report raw reading-experience feedback, not writing advice. Use when the user
+  asks how a specific audience would experience a draft, whether readers can
+  understand it, or wants reader role-play. Trigger on reader simulation, reader
+  feedback, reader perspective, whether readers can understand a piece, reading
+  experience, or testing how a target reader reacts. For general writing
+  improvement, draft polishing, structural optimization, or revision plans, use
+  writing-blog instead. Formerly named blog-feedback.
 ---
 
 # Writing Reader Feedback
@@ -13,6 +20,9 @@ Simulate a real reader reading an article in order, section by section, with the
 The deliverable is a reading-experience report that records the reader's experience at each section.
 
 Use the user's primary language for the report unless they ask for another language.
+
+Keep this skill separate from `writing-blog`: this skill reports what the reader
+thinks and feels while reading; `writing-blog` decides how to change the article.
 
 ## Success Criteria And Stop Condition
 
