@@ -44,6 +44,7 @@ Skills are grouped by primary mode.
 - [meta-context-engineering-global](skills/meta-context-engineering-global/SKILL.md): Context engineering for global rules files, focused on rules that remain valid across tasks, projects, and sessions.
 - [meta-context-engineering-project](skills/meta-context-engineering-project/SKILL.md): Project-level context engineering for repo-local rules, task context packing, and project-specific drift diagnosis.
 - [meta-gpt-prompt-maintenance](skills/meta-gpt-prompt-maintenance/SKILL.md): Maintain and upgrade GPT-oriented prompt artifacts, including SKILL.md, AGENTS, system/developer prompts, agent workflows, evals, and grader prompts.
+- [meta-subagent-orchestration](skills/meta-subagent-orchestration/SKILL.md): Orchestrate focused sub-agents for parallel investigation, delegated implementation, and verification while keeping the main agent responsible for integration.
 
 ### Ops
 
