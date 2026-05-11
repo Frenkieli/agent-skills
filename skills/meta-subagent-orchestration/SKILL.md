@@ -1,7 +1,7 @@
 ---
 name: meta-subagent-orchestration
 description: >-
-  Orchestrate complex agent work with focused sub-agents while preserving the main agent's context. Use when a task may benefit from parallel sub-agents, delegated research, codebase exploration, independent implementation slices, background verification, or worker/explorer agents. Also use when the user asks to act as an orchestrator, use parallel agents, delegate to sub-agents, keep the main context clean, avoid duplicated agent work, or coordinate multiple agent sessions. Do not use for simple single-threaded tasks where delegation would add coordination overhead.
+  Plan and coordinate explicitly authorized or host-permitted sub-agent work while preserving the main agent's context. Use when the user asks to act as an orchestrator, use parallel agents, delegate to sub-agents, keep the main context clean, avoid duplicated agent work, or coordinate multiple agent sessions. Also use when the current host policy permits delegation and a task has independent research, codebase exploration, implementation slices, background verification, or worker/explorer agents. Do not use to bypass tool policy, infer user authorization for sub-agents, or add coordination overhead to simple single-threaded tasks.
 ---
 
 # Meta Subagent Orchestration
@@ -11,6 +11,23 @@ Use this skill to coordinate sub-agents without turning the main agent into a du
 The goal is not to maximize the number of sub-agents. The goal is to protect the main agent's context and attention while still completing the user's requested work. Delegate bounded work that can run independently, then integrate the returned evidence.
 
 This skill is tool-neutral. "Sub-agent" may mean a worker, explorer, background agent, forked agent, delegated session, agent thread, or any equivalent capability provided by the current coding or agent tool.
+
+Multi-agent work has real overhead: duplicated setup context, coordination messages, report synthesis, and more failure modes. Use sub-agents when they buy one of three things:
+
+- Context protection: the subtask needs noisy exploration but only a compact result matters.
+- Parallel coverage: independent subtasks can cover more ground than one context window.
+- Specialization: a focused prompt or restricted tool set improves reliability.
+
+If none of those apply, prefer a single agent.
+
+## Authorization And Host Policy
+
+Follow the current host and tool policy before applying any orchestration rule in this skill.
+
+- If sub-agent calls require explicit user authorization, treat benefit signals as planning inputs only. Do not spawn, message, resume, or wait on sub-agents unless the user explicitly asked for sub-agents, delegation, parallel agents, or equivalent agent work.
+- If the host permits autonomous delegation, use the use/not-use rules below to decide whether delegation is worth the coordination cost.
+- Do not create external infrastructure, durable state, issue trackers, queues, files, commits, branches, or other side effects for coordination unless the user authorized that surface or the artifact already exists inside the requested work.
+- If delegation would change the authorization boundary, ask one narrow question or keep the work local.
 
 ## Core Principle
 
@@ -31,35 +48,113 @@ Sub-agents own:
 - Bounded implementation within explicit ownership.
 - Reports that compress their work into actionable findings.
 
-Do not delegate the same task and then immediately redo it locally. That defeats the purpose of context isolation and parallelism.
+Do not delegate the same task and then redo it locally while the sub-agent is still responsible for it. That defeats the purpose of context isolation and parallelism.
+
+The main agent may verify returned work, but verification starts after the relevant report exists or at an explicit checkpoint. Until then, the main agent works only on non-overlapping tasks or waits.
 
 ## When To Use
 
-Use this skill when at least one of these is true:
+Use this skill to decide whether to delegate, and to coordinate delegation only when the current host policy permits it. Delegation is worth considering when at least one of these is true:
 
+- The user explicitly asks for sub-agents, parallel agents, orchestration, delegation, background workers, or context isolation.
 - The task naturally decomposes into independent research, analysis, review, or implementation slices.
 - A subtask may produce large logs, search results, file reads, or exploratory context that should not pollute the main conversation.
 - Multiple files, modules, systems, sources, or hypotheses can be investigated in parallel.
-- The user explicitly asks for sub-agents, parallel agents, orchestration, delegation, background workers, or context isolation.
 - The task benefits from a separate verifier, reviewer, test runner, or source checker.
+- A subtask needs a narrower tool set or stricter permission boundary than the main agent.
+
+Strong signals:
+
+- Exploration would require reading roughly ten or more files.
+- The task has three or more independent work items.
+- A subtask will produce more raw context than the main agent should carry.
+- Fresh, unbiased review matters.
 
 ## When Not To Use
 
 Do not use sub-agents when:
 
+- Host or tool policy requires explicit delegation authorization and the user has not given it.
 - The task is small enough that delegation adds more coordination cost than value.
 - The next step is a blocking critical-path decision that the main agent must make now.
 - The subtask is vague, open-ended, or lacks a clear stop condition.
 - Sub-agents would need to edit overlapping files or shared state without explicit ownership.
 - The work requires continuous shared context between agents rather than final reports.
 
-If the work needs shared evolving knowledge, prefer a shared document, task board, or state file with explicit write rules before adding more agents.
+If the work needs shared evolving knowledge, use an existing shared artifact with explicit write rules, or ask before creating one.
+
+## Pattern Selection
+
+Choose the lightest coordination pattern that fits.
+
+Treat these as coordination patterns, not permission to create infrastructure. Use existing host features first. Create queues, task boards, state files, or persistent agents only when they are authorized and clearly inside the requested work.
+
+| Situation | Use |
+|---|---|
+| Short, focused subtasks with clear outputs | Orchestrator-subagent |
+| Independent long-running slices that benefit from retained local context | Authorized agent team or persistent worker |
+| Event-driven pipeline with many possible routes | Existing message bus or queue |
+| Collaborative research where agents must build on each other's findings | Authorized shared state with write rules |
+| Quality-critical output with explicit criteria | Generator-verifier |
+
+If using orchestrator-subagent and the same worker needs repeated follow-ups, consider resuming that worker or switching to an agent-team pattern instead of repeatedly spawning fresh agents with duplicated context.
+
+If using shared state, define termination conditions before starting: time budget, max rounds, no-new-findings threshold, or a designated finisher. Without a stop rule, shared-state agents tend to duplicate work or loop.
 
 ## Workflow
 
-### 1. Define The Critical Path
+### 1. Use A Minimal Coordination Record Only When Needed
 
-Before spawning any sub-agent, identify:
+The current agent is already the orchestrator. Do not create a ledger by default just because this skill is active.
+
+Most tasks only need a brief mental model, a short visible orchestration note, or the tool's existing task list. A separate coordination record is useful only when it prevents confusion that would otherwise cost more context than the record itself.
+
+Use a written coordination record when:
+
+- Three or more sub-agents are running.
+- Work spans multiple rounds or may need resumption.
+- Several reports may conflict and need explicit reconciliation.
+- Agents coordinate through an authorized or existing shared artifact instead of only final reports.
+- The user asked for a visible orchestration plan.
+
+Do not use a written coordination record when:
+
+- One or two sub-agents are handling short bounded tasks.
+- The main agent can remember the assignments without risk.
+- The record would duplicate the delegation packets or returned reports.
+- The user's goal is specifically to minimize main-context growth.
+- The record would create a new file, task board, or durable state without authorization.
+
+If a record is needed, keep it compact. Prefer an in-thread note or existing task-list feature unless the user authorized a durable artifact:
+
+```markdown
+Goal:
+[Requested outcome.]
+
+Constraints:
+[User constraints, boundaries, non-goals.]
+
+Critical path:
+[What the main agent owns next.]
+
+Delegations:
+- [Agent/task]: scope, ownership, status, dependency, stop condition
+
+Evidence returned:
+- [Only decisions, pointers, and key findings; no raw dumps.]
+
+Conflicts or unknowns:
+- [Items needing integration or follow-up.]
+
+Next decision:
+[The next main-agent decision after reports return.]
+```
+
+Update the record only at delegation and report-return checkpoints. Do not use it as an excuse to copy sub-agent transcripts into the main context.
+
+### 2. Define The Critical Path
+
+Before spawning, resuming, or assigning any sub-agent, identify:
 
 - What must be decided or done by the main agent next.
 - Which work can proceed independently.
@@ -68,7 +163,7 @@ Before spawning any sub-agent, identify:
 
 Keep the immediate blocker local. Delegate sidecar work only when the main agent can make progress without needing the result immediately.
 
-### 2. Partition Work By Context, Not By Vibes
+### 3. Partition Work By Context, Not By Vibes
 
 Split work according to the context each agent needs.
 
@@ -87,7 +182,7 @@ Bad partitions:
 - Agents asked to "research everything" or "find issues" with no boundary.
 - Agents whose findings must constantly inform each other before either can proceed.
 
-### 3. Write A Delegation Packet
+### 4. Write A Delegation Packet
 
 Each sub-agent gets a concrete task packet. Include only the context it needs.
 
@@ -103,18 +198,24 @@ Scope:
 - May inspect: [paths/sources]
 - Must not edit: [paths/sources or "anything outside ownership"]
 
+Tool and permission boundary:
+[Read-only / allowed commands / allowed tools / approval requirements.]
+
 Execution rules:
 - You are not alone in this workspace.
 - Do not revert or overwrite work by others.
 - Keep changes minimal and consistent with existing patterns.
 - If blocked, report the blocker instead of expanding scope.
+- Return distilled findings, not raw transcripts or large file dumps.
 
 Verification:
 [Commands, checks, source requirements, or "read-only investigation".]
 
 Return format:
 - Summary
+- Decision-relevant findings
 - Evidence observed
+- Source pointers or file paths
 - Files changed, if any
 - Commands or sources checked
 - Risks, conflicts, or unknowns
@@ -126,7 +227,9 @@ Stop condition:
 
 For code edits, assign disjoint ownership. If disjoint ownership is impossible, use read-only agents first and keep edits local to the main agent.
 
-### 4. Enforce The Non-Overlap Rule
+For verifier agents, include a rubric. A verifier asked only to "check if this is good" creates the appearance of quality control without useful signal.
+
+### 5. Enforce The Non-Overlap Rule
 
 After delegating, the main agent must not start doing the same subtask locally while the sub-agent is still running.
 
@@ -149,7 +252,9 @@ Not allowed while waiting:
 
 Verification is still required, but it happens after the sub-agent returns or at an explicit checkpoint. The orchestrator should verify the returned report, not consume context recreating the entire delegated process in parallel.
 
-### 5. Receive Reports As Evidence
+If there is no non-overlapping useful work, wait. Waiting is better than polluting the main context with duplicated exploration.
+
+### 6. Receive Reports As Evidence
 
 Treat sub-agent output as evidence, not truth.
 
@@ -162,9 +267,34 @@ Check:
 - Did it make assumptions that affect the final decision?
 - Did it introduce scope creep or boundary changes?
 
+Use proportional verification:
+
+- Spot-check high-impact claims.
+- Re-run only the relevant failing command or smallest reproducible check.
+- Compare independent reports for contradictions.
+- Verify changed code through targeted tests, lint, typecheck, build, or smoke checks.
+
 If a report is weak, ask for a focused follow-up. Do not silently redo the whole task unless the sub-agent failed and the work is necessary for completion.
 
-### 6. Integrate And Stop
+### 7. Track Stalls And Replan
+
+Set limits before loops start:
+
+- Maximum follow-up rounds for a sub-agent.
+- Maximum verifier/generator repair loops.
+- Maximum stall count before replanning or escalating.
+- Fallback if the report remains insufficient.
+
+Stall signals:
+
+- The same blocker appears twice.
+- A worker expands scope instead of converging.
+- A verifier repeats generic feedback.
+- Reports contradict each other and no new evidence is being added.
+
+When stalled, update the ledger, narrow the task, ask one focused follow-up, or take the work local if it is now on the critical path. Do not keep spawning equivalent agents.
+
+### 8. Integrate And Stop
 
 Integrate only what satisfies the user's requested work.
 
@@ -187,6 +317,13 @@ Use for codebase orientation, research, or diagnosis.
 - Main agent continues on the critical path.
 - Main agent synthesizes reports and decides the implementation or answer.
 
+Require each explorer to return:
+
+- The smallest useful summary.
+- Evidence pointers.
+- Unknowns.
+- What it deliberately did not inspect.
+
 ### Worker Slices
 
 Use for implementation only when ownership is clean.
@@ -195,6 +332,8 @@ Use for implementation only when ownership is clean.
 - Worker B owns a different module or file set.
 - Main agent avoids editing those owned areas while workers run.
 - Main agent reviews diffs, resolves integration, and verifies.
+
+Prefer read-only exploration before parallel edits when ownership is uncertain.
 
 ### Reviewer Or Verifier
 
@@ -205,6 +344,18 @@ Use when quality risk is high.
 - Main agent uses verifier feedback to revise or accept.
 
 The verifier must have a concrete rubric. "Check if this is good" is not enough.
+
+Limit verifier loops. If the generator cannot address the same feedback after the agreed limit, escalate, return the best result with caveats, or ask the user for a decision.
+
+### Shared Artifact Handoff
+
+Use when multiple agents need a durable handoff without dumping context into the main conversation.
+
+- Use an existing artifact when available. Create a markdown task log, JSON state file, issue list, or task board only when the user authorized that durable surface.
+- Define who can write which section.
+- Prefer append-only notes for findings and explicit status fields for tasks.
+- Require agents to write summaries and evidence pointers, not transcripts.
+- Add a stop condition before agents start reading and reacting to each other's updates.
 
 ## Red Flags
 
@@ -217,6 +368,9 @@ Watch for these failure modes:
 - The orchestrator trusts a report with no evidence.
 - The orchestrator asks for exhaustive verification when spot-checking the report would be enough.
 - Reports are copied wholesale into the main context instead of summarized into decisions.
+- The ledger grows into a second transcript.
+- Verification loops have no maximum iteration count.
+- Shared state has no owner, write rules, or stop condition.
 
 ## Minimal Orchestration Note
 
@@ -227,6 +381,6 @@ Orchestration:
 - Main thread: [critical-path work kept local]
 - Delegated: [sub-agent tasks and ownership]
 - Non-overlap: [what the main agent will not duplicate while agents run]
+- Ledger: [where status/evidence will be tracked, if any]
 - Integration: [how reports will be checked and merged]
 ```
-
