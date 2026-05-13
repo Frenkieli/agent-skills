@@ -208,6 +208,10 @@ After the main agent synthesizes candidate findings, double-check each one befor
 
 Each finding should name priority, concrete surface, evidence location, why it matters, and smallest correction.
 
+Findings that involve invalid state, inherited parameters, wrapper bypass, persisted values, parse-time repair, or boundary mismatch should also name the invariant owner: the data source, state writer, shared contract, call boundary, or presentation layer that should make the bad state impossible.
+
+When the smallest correction is a downstream guard or normalization step, include the upstream/root-cause correction and the most correct design if they differ. Prefer the recommendation that removes the failure mode at the earliest responsible owner. Recommend downstream defense only when the upstream owner is outside the requested scope, would break compatibility, or carries higher risk, and state that constraint in the finding.
+
 ## Output Shape
 
 When explicitly invoked, write in the user's primary language.
