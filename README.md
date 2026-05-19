@@ -11,7 +11,7 @@ npx skills add plimeor/agent-skills
 Install a single skill:
 
 ```bash
-npx skills add plimeor/agent-skills --skill ops-url-reader
+npx skills add plimeor/agent-skills --skill url-reader
 ```
 
 ## Project Structure
@@ -45,8 +45,8 @@ Skills are grouped by primary mode.
 ### Ops
 
 - [ops-bear](skills/ops-bear/SKILL.md): Read, search, create, edit, organize, and open Bear notes through the local Bear App CLI.
-- [ops-codex-session-maintenance](skills/ops-codex-session-maintenance/SKILL.md): Maintain local Codex session state: inspect and back up first, then archive old sessions/worktrees, rotate logs, and generate handoffs.
-- [ops-url-reader](skills/ops-url-reader/SKILL.md): Extract main content from public URLs with centralized URL safety, defuddle.md extraction, and one authorized fallback path.
+- [codex-session-maintenance](skills/codex-session-maintenance/SKILL.md): Maintain local Codex session state: inspect and back up first, then archive old sessions/worktrees, rotate logs, and generate handoffs.
+- [url-reader](skills/url-reader/SKILL.md): Extract main content from public URLs with centralized URL safety, defuddle.md extraction, and one authorized fallback path.
 
 ### Writing
 

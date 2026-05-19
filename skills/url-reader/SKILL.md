@@ -1,7 +1,7 @@
 ---
-name: ops-url-reader
+name: url-reader
 description: >-
-  Read the main content of a specific webpage URL when the user asks to summarize, inspect, cite, reference, or extract facts from that URL, including "read this", "look at this link", "based on this article", or equivalent reference requests. Owns URL retrieval safety for skills that need webpage content: use defuddle.md only for public pages, choose one authorized fallback when extraction fails, and avoid broad search or private/login-gated URLs.
+  Read the main content of a specific webpage URL when the user asks to summarize, inspect, cite, reference, or extract facts from that URL, including "read this", "look at this link", "based on this article", or equivalent reference requests. Owns URL retrieval safety for skills that need webpage content: use defuddle.md only for public pages, choose one authorized fallback when extraction fails, and avoid broad search or private/login-gated URLs. Also trigger when a user or existing workflow names ops-url-reader.
 ---
 
 # URL Reader

@@ -34,7 +34,7 @@ Stop after the full article has been read and the overall impression has been re
 
 - If the user provides article text directly, use that text.
 - If the user provides a file path, read only the target file.
-- If the user provides a webpage URL, use `ops-url-reader` or `WebFetch` to get the body content. Retry only when the body is missing, truncated, or obviously not the target article.
+- If the user provides a webpage URL, use `url-reader` or `WebFetch` to get the body content. Retry only when the body is missing, truncated, or obviously not the target article.
 - Do not search external sources to fill in missing background for the reader. Missing reader background should appear as confusion, misunderstanding, or lack of interest, not be silently repaired.
 - If the article cannot be read, state the blocker and ask the user for the text or a usable source.
 
@@ -45,7 +45,7 @@ Stop after the full article has been read and the overall impression has been re
 The user may provide a file path or webpage URL:
 
 - **File path**: read the target file.
-- **Webpage URL**: use `ops-url-reader` or `WebFetch` to extract the body text.
+- **Webpage URL**: use `url-reader` or `WebFetch` to extract the body text.
 
 ### 2. Establish The Reader Persona
 

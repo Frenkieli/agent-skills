@@ -9,7 +9,9 @@
 
 ## Naming Convention
 
-Use the prefix that matches the skill's primary mode:
+Skill names should be readable, intuitive, and easy to invoke. Prefer the shortest name that clearly describes the reusable job.
+
+Mode prefixes can help with scanning and disambiguation when they make the name clearer:
 
 - `code-*`: Coding, debugging, review, refactoring, and testing
 - `knowledge-*`: Knowledge management, summarization, synthesis, and durable documentation
@@ -18,7 +20,7 @@ Use the prefix that matches the skill's primary mode:
 - `meta-*`: Prompt, AGENTS, SKILL, and context architecture
 - `ops-*`: Local environment, automation, release, CI, and tooling
 
-Choose by primary mode, not by secondary capability. For example, a skill that reads URLs to support article feedback is still `ops-*` if its reusable job is URL content extraction.
+Choose the name by the user's natural trigger phrase and the skill's primary reusable job. Use a prefix when it improves recognition or prevents ambiguity; prefer an unprefixed name when that is clearer.
 
 ## Editing Rules
 
