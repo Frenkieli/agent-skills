@@ -2,6 +2,7 @@
 name: code-plan
 description: >-
   Write evidence-backed coding plans for implementation, debugging, refactoring, migrations, design parity work, and long-running agent tasks. Use when defining, clarifying, refining, or validating a development plan, /goal prompt, implementation approach, scope and non-goals, work sequence, acceptance criteria, regression evidence, verification strategy, or stop condition. Near miss: use code-review when judging an existing diff, spec, or already drafted plan rather than drafting or revising a plan.
+  Also use when the user says `design twice` after a plan and wants an APOSD-style second-design pass over the completed plan.
 ---
 
 # Code Plan
@@ -34,6 +35,14 @@ Serious, uncertain, or design-risk plans also require:
 - integration of any research or review findings into concrete scope, sequence, regression evidence, risks, checkpoints, pause conditions, or stop conditions
 - for material design-shape risk, a design critique through `code-review` or an equivalent local review, plus an explicit reason if the critique was skipped
 - a user decision question for unresolved regression gaps caused by insufficient project tests
+
+When the user triggers `design twice` after a plan, the follow-up is incomplete unless it includes:
+
+- the original plan frame being preserved: objective, scope, non-goals, constraints, acceptance bar, and authorization boundaries
+- at least two real design options for the material design choice, where the current plan may count as one option
+- comparison of the options through APOSD-style complexity evidence: change amplification, cognitive load, unknown-unknown risk, dependency, and obscurity
+- a recommendation to keep the plan, revise specific plan sections, or pause for one user decision
+- verification and regression impact for any recommended plan change
 
 Do not split the artifact into separate goal, spec, and plan documents unless the user asks. Keep one cohesive plan.
 
@@ -167,6 +176,35 @@ Weak substitutes do not satisfy the gate: "keep it simple", style-only critique,
 
 If design review surfaces unresolved ownership, API, schema, persistence, or compatibility risk, the final plan must either choose the conservative no-boundary-change path, ask one user decision question, or mark a pause condition.
 
+### Design Twice Follow-Up Gate
+
+Activate this gate when the user says `design twice` after receiving a plan or asks to apply APOSD's Design It Twice principle to an existing plan.
+
+Treat the completed plan as the fixed frame unless the user explicitly changes it. Preserve the objective, scope, non-goals, constraints, acceptance bar, regression bar, and authorization boundaries. The follow-up reviews the design shape; it does not restart planning from a blank page.
+
+Required evidence before returning:
+
+- the material design choice being tested: owner, boundary, representation, interface, error model, sequencing strategy, migration shape, or generated-artifact contract
+- at least two viable and materially different options, where the original plan can be one option
+- the future maintainer or caller task each option makes easier or harder
+- complexity comparison mapped to APOSD symptoms and causes: change amplification, cognitive load, unknown-unknown risk, dependency, and obscurity
+- local-fit comparison: existing patterns, public contracts, regression surface, implementation cost, validation cost, and authorized boundary
+- the recommended outcome: keep the plan, revise specific plan sections, or pause for a user decision
+
+Weak substitutes do not satisfy this gate: a single real option plus a strawman, superficial naming variants, generic pros and cons, "cleaner" without a maintainer task, future-flexibility theater, ceremonial alternatives for a trivial choice, or a recommendation that changes public API, schema, persistence, security posture, deployment, or external side effects without authorization.
+
+Use this output shape unless the user asks for a different format:
+
+1. `Design twice frame` - fixed objective, scope, non-goals, constraints, and the design choice under review.
+2. `Options` - two or three real options with the owner, boundary, interface or representation, and key invariant or error owner.
+3. `Comparison` - complexity evidence and local-fit tradeoffs.
+4. `Recommendation` - keep, revise, or pause, with the reason.
+5. `Plan changes` - only the sections that need to change, or `No plan changes` with rationale.
+6. `Verification and regression impact` - commands, artifacts, manual evidence, or coverage gaps that change because of the recommendation.
+7. `Stop / pause condition` - the exact condition where the follow-up is done or where user input is required.
+
+If no material design choice exists, say so, explain the inspected surface, and stop with no forced alternatives.
+
 ### Regression Evidence
 
 Regression evidence is usually more important than proving the new code path once. A plan must identify the existing behavior, public contract, workflow, data format, visual surface, or integration boundary that the change could accidentally break.
@@ -245,6 +283,8 @@ Before returning the plan, check:
 - Are any delegated tasks ceremonial, broad, unbounded, or pasted without integration? If yes, remove them or rewrite them into bounded evidence questions.
 - If the plan has design-shape risk, did `code-review` or an equivalent design critique inspect interface depth, information hiding, invariant/error ownership, and complexity pushed to callers?
 - Did design-review findings change the final plan, or does `Planning iteration` explain why no plan change was needed?
+- If the user triggered `design twice`, did the follow-up preserve the original plan frame, compare at least two real options, avoid strawmen, and map tradeoffs to APOSD complexity symptoms and causes?
+- If `design twice` recommends a change, did it update only the affected plan sections plus verification, regression evidence, risks, stop conditions, or pause conditions?
 - Does the final plan remain one cohesive executable plan rather than a bundle of sub-agent notes?
 - Does the plan explain why the recommended approach fits better than obvious alternatives?
 - If scope risk exists, does the plan name the actual requested outcome, what was deleted or deferred, and whether boundary changes are avoided, authorized, or blocked?
@@ -264,5 +304,7 @@ Stop when the user has one executable plan, the required `Test gap decision` que
 When scope risk remains unresolved, stop only after the plan names the conservative no-boundary-change path, the user decision needed, or the pause condition that blocks expansion.
 
 When independent or delegated research is used, stop only after the final plan integrates the relevant findings and names unresolved evidence gaps, waived risks, or user decisions. Do not stop with unintegrated notes unless the user explicitly asked for raw research output.
+
+When `design twice` is triggered, stop after the comparison, recommendation, affected plan-section updates or no-change rationale, and verification/regression impact. Implementation remains separate unless already authorized.
 
 The next phase is separate unless already authorized: implementation, file edits, documentation changes, test execution, commits, pushes, deployment, or external side effects require the user's current request or an active execution task.
