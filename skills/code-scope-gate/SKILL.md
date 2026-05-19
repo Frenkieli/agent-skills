@@ -1,16 +1,16 @@
 ---
 name: code-scope-gate
 description: >-
-  Scope gate for coding, debugging, refactoring, automation, implementation planning, requirement design, and code review when the task may grow beyond the requested outcome. Use it to separate the actual request from candidate solutions, delete unnecessary scope, avoid unauthorized boundary changes, and choose the smallest sufficient path before work proceeds. Show a visible gate when the user asks for minimal scope or when scope risk affects the plan; otherwise apply it silently.
+  Cross-workflow scope triage for coding, debugging, refactoring, automation, implementation planning, requirement design, and code review when work may grow beyond the requested outcome. Use it before planning, implementation, debugging, review, or automation to separate the actual request from candidate solutions, delete unnecessary scope, classify boundary changes, and choose the next authorized action. Not a full planning skill; use code-plan when the requested output is a complete executable plan. Show a visible gate when the user asks for minimal scope or when scope risk affects the next action; otherwise apply it silently.
 ---
 
 # Code Scope Gate
 
 ## Goal
 
-Find the smallest sufficient deliverable that correctly satisfies the user's request.
+Keep coding work from expanding beyond the user's authorized outcome.
 
-Use this skill as a pre-commitment gate before requirements design, planning, code work, debugging, refactoring, automation, or review when scope risk could change the result.
+Use this skill as a small pre-work triage before requirements design, planning, code work, debugging, refactoring, automation, or review when scope risk could change the result. It can feed `code-plan`, `code-review`, or `code-test-strategy`, but it does not replace those skills.
 
 ## Success Criteria
 
@@ -21,6 +21,7 @@ A good scope gate:
 - Deletes, defers, reuses, or avoids at least one unnecessary surface when scope risk exists.
 - Chooses the smallest coherent path that still satisfies correctness, maintainability, and verification.
 - Classifies boundary changes as avoided, authorized, or blocked pending user confirmation.
+- Returns one narrow next action: proceed locally, hand off to a more specific skill, ask one question, or stop for authorization.
 
 ## Constraints
 
@@ -32,11 +33,15 @@ This skill implements only a question-delete-simplify pass:
 
 Stop there. Do not move into acceleration or automation unless the user explicitly asks for it or the current task already requires it.
 
+Do not expand this skill into a complete implementation plan, design review, or test strategy. Use `code-plan` for complete executable plans, `code-review` for concrete plan/spec/diff critique, and `code-test-strategy` for test coverage decisions.
+
 Treat changes to public behavior, shared contracts, APIs, schemas, persistence, security posture, deployment, or cross-module ownership as `Boundary Change`. If a boundary change is not authorized, provide the best local alternative. If no local alternative can satisfy the request, stop and ask for confirmation.
 
 ## Trigger And Visibility
 
 Use the reasoning whenever the request involves requirement design, PRD shaping, implementation planning, coding, debugging, refactoring, scripting, automation, or review and the work could expand beyond the requested outcome.
+
+Use `code-plan` instead when the user's requested artifact is a full coding plan. In that case, apply the scope triage logic through `code-plan`'s scope gate and write the result into the plan's `Scope`, `Non-goals`, `Proposed approach`, and `Pause conditions`.
 
 Show a visible `Scope Gate` when:
 
@@ -121,7 +126,7 @@ Deletes:
 - [What is removed, deferred, reused, or kept out of scope]
 
 Smallest sufficient path:
-- [The smallest plan or implementation path that still satisfies the request]
+- [The smallest next action, handoff, plan path, or implementation path that still satisfies the request]
 
 Boundary:
 - [No boundary change / Authorized boundary change / Unauthorized boundary change with local alternative]
@@ -130,10 +135,10 @@ Verification:
 - [Concrete checks or evidence needed to trust the result]
 
 Next action:
-- [Proceed / Ask one question / Stop for authorization]
+- [Proceed / Hand off to code-plan, code-review, or code-test-strategy / Ask one question / Stop for authorization]
 ```
 
-After the gate, continue only if the next step is within scope and authorized. For code work, implement the smallest sufficient path and verify it. For review, report scope creep, unnecessary abstractions, or unauthorized boundary changes before style nits.
+After the gate, continue only if the next step is within scope and authorized. For code work, implement the smallest sufficient path and verify it. For full planning, hand the gate result into `code-plan` instead of expanding this skill into a full plan. For review, report scope creep, unnecessary abstractions, or unauthorized boundary changes before style nits.
 
 ## Common Rationalizations
 
@@ -148,7 +153,7 @@ After the gate, continue only if the next step is within scope and authorized. F
 
 ## Stop Rules
 
-Stop the gate when the actual request, Definition of Done, deletion choices, smallest sufficient path, boundary status, and verification are clear enough to act.
+Stop the gate when the actual request, Definition of Done, deletion choices, smallest sufficient path or handoff, boundary status, and verification are clear enough to act.
 
 Do not keep expanding the plan after that point. Do not continue into acceleration, automation, platform work, adjacent refactors, or future options unless the user explicitly authorizes that larger boundary.
 

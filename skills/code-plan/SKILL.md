@@ -61,6 +61,23 @@ Weak substitutes do not satisfy the gate: a broad checklist, multiple unchosen i
 
 If the user wants to proceed without answers, record the assumptions under `Clarification status`, `Scope`, `Non-goals`, `Assumptions`, `Risks`, or `Pause conditions`.
 
+## Scope Triage Gate
+
+Activate this gate when the request mixes a desired outcome with a proposed implementation, the plan could add unrequested surface area, or a boundary change appears necessary or tempting.
+
+Required evidence before drafting:
+
+- the actual requested outcome is separated from candidate implementation ideas
+- unnecessary features, files, abstractions, dependencies, configuration, workflows, or adjacent refactors are deleted, deferred, reused, or explicitly left out
+- boundary changes are classified as avoided, authorized, or blocked pending user confirmation
+- the smallest sufficient approach is chosen before work slices are expanded
+
+Weak substitutes do not satisfy the gate: restating the user's proposed implementation as a requirement, saying "keep it simple" without naming what stays out, moving speculative work into the plan as optional implementation detail, or hiding public API, schema, persistence, security, deployment, or cross-module changes inside ordinary work slices.
+
+Write the gate result into `Scope`, `Non-goals`, `Proposed approach`, `Pause conditions`, and `Stop condition`. Do not add a separate visible `Scope Gate` section unless the user explicitly asks for it or the boundary decision needs to be audited.
+
+If an unauthorized boundary change is required to satisfy the request, the plan must choose a conservative no-boundary-change alternative, ask one user decision question, or mark a pause condition before that work begins.
+
 ## Plan Shape
 
 Use the shortest structure that preserves the plan's executable value. For most coding plans, use these sections in this order:
@@ -177,6 +194,8 @@ Name the recommended path, not every possible path. Include alternatives only wh
 
 The approach should explain the reasoning boundary: why this is the smallest sufficient path, what it preserves, and what it intentionally leaves out.
 
+When the Scope Triage Gate applies, the approach must preserve the distinction between requested outcomes and candidate implementations. Do not let a proposed mechanism become a requirement unless the user or source-of-truth behavior makes it one.
+
 ### Work Sequence
 
 The work sequence is an execution map, not a backlog dump. Each slice should have:
@@ -228,6 +247,8 @@ Before returning the plan, check:
 - Did design-review findings change the final plan, or does `Planning iteration` explain why no plan change was needed?
 - Does the final plan remain one cohesive executable plan rather than a bundle of sub-agent notes?
 - Does the plan explain why the recommended approach fits better than obvious alternatives?
+- If scope risk exists, does the plan name the actual requested outcome, what was deleted or deferred, and whether boundary changes are avoided, authorized, or blocked?
+- Could an agent treat a candidate implementation, speculative future feature, or adjacent refactor as required work? If yes, rewrite `Scope`, `Non-goals`, and `Proposed approach`.
 - Are acceptance results outcomes, not task completions?
 - Does every risky slice protect existing behavior with regression evidence, not only prove the new path?
 - If project tests are insufficient, does the plan ask the user to choose targeted behavior tests or end-to-end tests, with E2E recommended for web projects?
@@ -239,6 +260,8 @@ Before returning the plan, check:
 ## Stop Rules
 
 Stop when the user has one executable plan, the required `Test gap decision` question for any unresolved regression gaps, the next narrow clarification question, or a blocker list explaining which missing facts prevent a faithful plan.
+
+When scope risk remains unresolved, stop only after the plan names the conservative no-boundary-change path, the user decision needed, or the pause condition that blocks expansion.
 
 When independent or delegated research is used, stop only after the final plan integrates the relevant findings and names unresolved evidence gaps, waived risks, or user decisions. Do not stop with unintegrated notes unless the user explicitly asked for raw research output.
 
