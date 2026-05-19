@@ -2,13 +2,18 @@
 
 Use this prompt for a read-only sub-agent that reviews whether the implementation shape fits the local codebase and avoids false abstractions, wrong owners, duplicated paths, and broad churn.
 
+## Required References
+
+Read these before reviewing:
+
+- [../references/review-lens-contract.md](../references/review-lens-contract.md) for the shared input packet and read-only rules.
+- [../references/finding-contract.md](../references/finding-contract.md) for the shared candidate finding shape.
+
 ## Objective
 
 Find implementation-shape issues that make the change harder to maintain even when the high-level contract is acceptable.
 
 ## Lens Input
-
-Use [../references/review-lens-contract.md](../references/review-lens-contract.md) for the shared input packet and read-only rules.
 
 This lens needs relevant local patterns, adjacent modules, helpers, tests, docs, ownership assumptions, call sites, imports, generated files, and changed files.
 
@@ -26,8 +31,6 @@ Do not propose adjacent refactors unless they are the smallest correction for th
 - Does the implementation preserve current workflow, CLI/API behavior, persisted data, generated output, import paths, and documented contracts?
 
 ## Candidate Finding Focus
-
-Use [../references/finding-contract.md](../references/finding-contract.md) for the shared candidate finding shape.
 
 For implementation-fit findings, also name:
 

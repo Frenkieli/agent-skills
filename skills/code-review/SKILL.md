@@ -40,7 +40,9 @@ For `code-plan` draft review, use `design-shape` by default. Add `contract-surfa
 
 Do not dispatch multiple agents to "review everything." Each assignment needs a bounded surface, allowed artifacts, expected return format, and integration target.
 
-When dispatching `design-shape`, `contract-surface`, `test-validation`, or `implementation-fit`, include [references/review-lens-contract.md](references/review-lens-contract.md) and [references/finding-contract.md](references/finding-contract.md) with the lens prompt. `synthesis-critic` uses its own challenge contract because it critiques candidate findings instead of producing them.
+When dispatching `design-shape`, include [references/aposd-complexity-review.md](references/aposd-complexity-review.md), [references/review-lens-contract.md](references/review-lens-contract.md), and [references/finding-contract.md](references/finding-contract.md) with the lens prompt.
+
+When dispatching `contract-surface`, `test-validation`, or `implementation-fit`, include [references/review-lens-contract.md](references/review-lens-contract.md) and [references/finding-contract.md](references/finding-contract.md) with the lens prompt. `synthesis-critic` uses its own challenge contract because it critiques candidate findings instead of producing them.
 
 ## Priority Order
 
@@ -67,6 +69,12 @@ For design-shape findings, require:
 - smallest correction that reduces the cause instead of merely moving complexity elsewhere
 
 Reject weak substitutes: "cleaner", "more DRY", "fewer lines", "larger/deeper module", "add comments", "tests pass", or "hide the error" when they are not tied to reader-visible complexity and inspected evidence.
+
+Escalate APOSD-driven corrections through other lenses when their smallest correction changes another review surface:
+
+- Use `contract-surface` when the correction changes public API, CLI, schema, persisted state, generated output, wrapper behavior, compatibility, error semantics, or migration behavior.
+- Use `test-validation` when the correction changes behavior, removes or collapses an error path, relies on characterization/regression evidence, or creates a testability tradeoff.
+- Use `implementation-fit` when the correction depends on local ownership, existing helper patterns, false abstractions, duplicated paths, or broad churn.
 
 ## Finding Discipline
 

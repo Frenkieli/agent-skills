@@ -27,7 +27,7 @@ Skills are grouped by primary mode.
 ### Code
 
 - [code-plan](skills/code-plan/SKILL.md): Write complete coding plans with background, objective, scope, iterative research, proposed approach, ordered work, acceptance results, regression evidence, test-gap decisions, verification, risks, pause conditions, and stop conditions.
-- [code-review](skills/code-review/SKILL.md): Review plan drafts, specs, diffs, and implementation shapes through focused design, contract, test, implementation-fit, and synthesis lenses.
+- [code-review](skills/code-review/SKILL.md): Review plan drafts, specs, diffs, and implementation shapes through APOSD-style complexity, contract, test, implementation-fit, and synthesis lenses.
 - [code-scope-gate](skills/code-scope-gate/SKILL.md): Scope gate before coding; prevent over-implementation and converge on the smallest correct change.
 - [code-test-strategy](skills/code-test-strategy/SKILL.md): Test-strategy gate for coding tasks; avoid test-driven production complexity, premature tests, and implementation-detail tests.
 

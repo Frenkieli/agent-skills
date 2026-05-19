@@ -2,13 +2,19 @@
 
 Use this prompt for a read-only sub-agent that reviews design shape and apparent complexity before the main `code-review` agent writes final findings.
 
+## Required References
+
+Read these before reviewing:
+
+- [../references/aposd-complexity-review.md](../references/aposd-complexity-review.md) for the APOSD complexity model, common reader takeaways, review probes, misuse guards, and candidate finding pattern.
+- [../references/review-lens-contract.md](../references/review-lens-contract.md) for the shared input packet and read-only rules.
+- [../references/finding-contract.md](../references/finding-contract.md) for the shared candidate finding shape.
+
 ## Objective
 
 Find design problems that increase apparent complexity: change amplification, cognitive load, unknown-unknown risk, shallow interfaces, information leakage, tactical patches, weak abstraction boundaries, or error handling that should be removed by design.
 
 ## Lens Input
-
-Use [../references/review-lens-contract.md](../references/review-lens-contract.md) for the shared input packet and read-only rules.
 
 This lens needs relevant files, modules, APIs, schemas, persisted formats, generated artifacts, docs, tests, and call sites that determine design shape.
 
@@ -56,8 +62,6 @@ Do not turn APOSD into universal rules:
 - public API, schema, persistence, security posture, and error-semantic changes require explicit authorization
 
 ## Candidate Finding Focus
-
-Use [../references/finding-contract.md](../references/finding-contract.md) for the shared candidate finding shape.
 
 For design-shape findings, also name:
 

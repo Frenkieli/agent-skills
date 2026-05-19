@@ -2,13 +2,18 @@
 
 Use this prompt for a read-only sub-agent that reviews public contracts, compatibility, persisted shape, schema/type surfaces, generated artifacts, and wrappers before the main `code-review` agent writes final findings.
 
+## Required References
+
+Read these before reviewing:
+
+- [../references/review-lens-contract.md](../references/review-lens-contract.md) for the shared input packet and read-only rules.
+- [../references/finding-contract.md](../references/finding-contract.md) for the shared candidate finding shape.
+
 ## Objective
 
 Find contract and compatibility problems in the reviewed plan, spec, diff, or implementation shape.
 
 ## Lens Input
-
-Use [../references/review-lens-contract.md](../references/review-lens-contract.md) for the shared input packet and read-only rules.
 
 This lens needs relevant public API, CLI, schema, persisted state, generated artifact, wrapper, migration, docs, call sites, and tests that determine contract risk.
 
@@ -26,8 +31,6 @@ Do not invent compatibility requirements beyond observed contracts, user constra
 - Does the plan or diff change documented behavior, import paths, CLI output, event payloads, errors, or timing without authorization?
 
 ## Candidate Finding Focus
-
-Use [../references/finding-contract.md](../references/finding-contract.md) for the shared candidate finding shape.
 
 For contract findings, also name:
 

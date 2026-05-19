@@ -2,6 +2,12 @@
 
 Use this prompt for a read-only sub-agent that challenges the main `code-review` agent's candidate findings before final output.
 
+## Required References
+
+This prompt has its own challenge contract and does not use the shared lens contract for candidate findings.
+
+If the candidate final findings include APOSD-style design findings, read [../references/aposd-complexity-review.md](../references/aposd-complexity-review.md) before challenging them.
+
 ## Objective
 
 Catch unsupported findings, duplicates, incorrect priorities, missing higher-severity issues, weak corrections, and synthesis errors before the final review is shown to the user.
@@ -27,6 +33,8 @@ Catch unsupported findings, duplicates, incorrect priorities, missing higher-sev
 - Did synthesis merge atomic findings that need separate corrections?
 - Is any priority too high or too low based on impact and likelihood?
 - Does each finding name the concrete surface, why it matters, invariant owner when relevant, and smallest correction?
+- For APOSD-style design findings, does the finding name the reader task, complexity symptom, cause, and evidence, or is it only a slogan such as "cleaner", "deeper", "more DRY", "add comments", or "hide the error"?
+- Does any APOSD-style correction smuggle in public contract, schema, persistence, security posture, error-semantic, or validation changes that needed another review lens?
 - Did the main review drop a severe sub-agent candidate without a defensible reason?
 - Are coverage notes honest about completed, blocked, outside-scope, and unreviewed surfaces?
 - Is any finding only style preference rather than correctness, compatibility, architecture, contract, state, abstraction, maintainability, or test-quality risk?
