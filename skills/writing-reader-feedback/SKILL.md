@@ -8,7 +8,7 @@ description: >-
   feedback, reader perspective, whether readers can understand a piece, reading
   experience, or testing how a target reader reacts. For general writing
   improvement, draft polishing, structural optimization, or revision plans, use
-  writing-blog instead. Formerly named blog-feedback.
+  writing-blog instead.
 ---
 
 # Writing Reader Feedback

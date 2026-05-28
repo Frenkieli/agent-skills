@@ -6,47 +6,34 @@ description: >-
 
 # Code Review
 
-## Stance
+Perform an adversarial review of the change. Look for opportunities to **reduce layers** (pass-through wrappers, single-use abstractions), **remove complexity** (code-judo: restructurings that delete branches/modes/helpers, not rearrange them), and **increase reliability** (correctness, contract, state, concurrency, migration risk). Honor repo-wide policies (`AGENTS.md`, `CONTRIBUTING.md`, ADRs) as hard constraints. Verify what you can. Keep the original intent — simplify the *same* change, don't redirect scope.
 
-Read adversarially. Hunt *code-judo*: restructurings that delete branches, modes, helpers, or layers — not rearrange them. Surface a missed simplification with the same weight as a bug.
+## Attribution
 
-Ceiling: simplify the *same* change. Don't silently expand scope or redirect intent — raise that as a finding instead.
+Distinguish **NEW** (introduced or made materially worse by this change) from **PRE-EXISTING** (already true on the base branch). Compare against base — read the unchanged file or check blame, not just the diff hunks. Report PRE-EXISTING only when the change touches the same surface and it blocks the intended outcome, the change makes it worse, or the user asked for a broader audit. Tag every finding `[NEW]` or `[PRE-EXISTING]`; if uncertain, say so rather than defaulting to NEW.
 
-Honor project-local conventions (`AGENTS.md`, `CONTRIBUTING.md`, `.cursorrules`, ADRs) as hard constraints. For docs/config/generated/i18n-only PRs, narrow to the changed surface.
+## Bar
+
+Volume is failure. Each finding names a concrete surface, the impact, and the smallest correction. Drop anything that wouldn't change the merge decision or follow-up plan. Cap nits at three — if you have more, the bar is too low.
+
+Severity: **blocker** (correctness/contract/state), **raise** (real issue, follow-up acceptable), **nit** (small polish). Order by severity. Split atomic findings when surface or correction differs; merge only exact duplicates. If nothing meets the bar, say so and name residual risk.
+
+For draft-plan reviews, corrections are plan changes (revised approach, added context, stronger non-goal, checkpoint, user decision).
 
 ## Lenses
 
-- **APOSD complexity**: every design finding names reader task + symptom (change amplification, cognitive load, unknown-unknown) + cause (dependency, obscurity). Reject "cleaner" / "more DRY" / "add comments" without that mapping. Full lens: [references/aposd-complexity-review.md](references/aposd-complexity-review.md).
-- **Structural ambition**: missed code-judo, ad-hoc branching, single-use wrappers, magic generics, scattered feature logic, duplicated helpers, wrong-layer logic, files past ~1000 lines without reason. Prefer direct, boring code.
+Most reviews are inline — apply whichever lenses fit the change. When surfaces fan out or risk concentrates (multi-file, public API/CLI/schema/migration/persistence), dispatch focused sub-agents using the lens descriptions below as their prompts (consult `meta-subagent-orchestration` first). Sub-agents stay read-only, apply the attribution rule, and return concrete candidates with source pointers — silence is a valid output.
 
-## Dispatch
+**Design shape.** Shallow interfaces, information leakage, tactical patches adding branches/modes/fallbacks without reducing underlying complexity, weak ownership boundaries, error handling that should be removed by design, layers that only forward calls. Use APOSD vocabulary ([references/aposd-complexity-review.md](references/aposd-complexity-review.md)) — every design finding names reader task + symptom (change amplification / cognitive load / unknown-unknown) + cause (dependency / obscurity). Reject "cleaner" / "more DRY" / "add comments" without that mapping.
 
-Inline for small single-surface reviews. When surfaces fan out or risk concentrates (multi-file, public API/CLI/schema/migration/persistence, multiple high-risk surfaces), consult `meta-subagent-orchestration` before dispatching:
+**Contract surface.** Public/shared contracts: API, CLI, schemas, persisted state, generated artifacts, wrappers, migrations. New capability promises, silent rewrites/repairs/normalizations on parse, wrappers that reinterpret upstream contracts, missing collision checks on derived identities (paths/routes/cache keys/external refs), undocumented changes to behavior/imports/CLI output/event payloads/errors/timing, migrations that drop source baseline or fixture matrix. Don't invent compatibility requirements beyond observed contracts.
 
-- [subagents/design-shape.md](subagents/design-shape.md): design, modules, abstractions, error models.
-- [subagents/contract-surface.md](subagents/contract-surface.md): public API/CLI, schemas, persisted state, generated artifacts, migrations.
-- [subagents/test-validation.md](subagents/test-validation.md): regression evidence, test quality, validation.
-- [subagents/implementation-fit.md](subagents/implementation-fit.md): local patterns, wrong owners, false abstractions, duplicated paths.
-- [subagents/synthesis-critic.md](subagents/synthesis-critic.md): challenge candidates when risk is high or evidence conflicts.
+**Test validation.** Regression evidence. Behavior that could regress without coverage, tests that assert private state / call order / component names instead of public behavior, mocks of things that should be real, production-only seams added for testability, plans that prove the new path while leaving existing behavior unprotected. Don't report coverage gaps in untouched code.
 
-Default to `design-shape` for `code-plan` drafts. Include [references/review-lens-contract.md](references/review-lens-contract.md) and [references/finding-contract.md](references/finding-contract.md) with every lens prompt; add the APOSD reference for `design-shape`.
+**Implementation fit.** Fit with the local codebase. New helpers/wrappers/adapters that duplicate existing owners, single-use abstractions, wrong-layer logic, near-copy variants, broad find-and-replace that scatters one behavior, options/branches/files for future flexibility, calls to nonexistent or bypassed helpers. Don't propose adjacent refactors unless they are the smallest correction.
 
-## Findings
-
-Order by severity: structure and contract/state risk before local polish. Don't let nits bury blockers. Tag honestly:
-
-- **blocker**: structural, contract, or correctness issue worth weighing before merging.
-- **raise**: real issue, acceptable as follow-up.
-- **nit**: small polish.
-
-Each finding follows [references/finding-contract.md](references/finding-contract.md). For draft-plan reviews, corrections are plan changes (revised approach, added context, stronger non-goal, checkpoint, user decision).
-
-Atomic — split when surface or correction differs; merge only exact duplicates. Re-check each against cited evidence; drop, merge, split, or reorder anything unsupported. If no findings remain, say so and name residual risk.
+**Synthesis critic.** Dispatch when risk is high or evidence conflicts. Different role: challenges the draft findings, doesn't produce new candidates. Probes: evidence real, attribution correct against base, PRE-EXISTING justified, set clears the bar (drop low-value / excess nits), no bad duplicates/splits/severity, APOSD findings name reader-task/symptom/cause not slogans, severe sub-agent candidates not silently dropped, unreviewed surfaces acknowledged. Returns per challenge: target finding (or missing area), issue, evidence, action (keep / drop / retag / reword / reorder / verify / surface in judgment).
 
 ## Output
 
-User's primary language for prose; keep code symbols, paths, error messages, and API identifiers original. Return: findings → open questions that materially change the decision → short overall judgment (note blocked/out-of-scope/unreviewed surfaces and validation level if they affect confidence).
-
-## Stop
-
-Requested surfaces covered or explicitly out of scope, findings meet the contract, every claim grounded in inspected sources or labeled inference. No edits, tests, commits, pushes, or deploys without separate authorization.
+User's primary language for prose; keep code symbols, paths, errors original. Return: findings (each prefixed `[NEW]`/`[PRE-EXISTING]` and severity-tagged) → open questions that materially change the decision → short overall judgment (note blocked/unreviewed surfaces). No edits, commits, or pushes without separate authorization.

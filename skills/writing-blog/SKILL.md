@@ -9,7 +9,7 @@ description: >-
   articles, publishing, writing, first drafts, polishing, diagnosis,
   optimization, structure, outlines, submissions, newsletters, and
   reader-oriented writing. For raw reader-experience simulation without writing
-  advice, use writing-reader-feedback instead. Formerly named blog-writing.
+  advice, use writing-reader-feedback instead.
 ---
 
 # Blog Writing

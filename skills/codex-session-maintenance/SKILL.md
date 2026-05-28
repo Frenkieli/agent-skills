@@ -1,7 +1,7 @@
 ---
 name: codex-session-maintenance
 description: >-
-  Maintain local Codex Desktop/App state when Codex feels slow, session history is heavy, logs or worktrees are large, or the user asks to inspect, archive, clean up, rotate, hand off, reset, or speed up Codex sessions. Use for inspect-first, backup-first local state maintenance: measure hotspots, create handoffs for useful long sessions, archive stale sessions/worktrees, rotate logs, prune clearly dead project paths only after backup and confirmation, and report concrete verification. Also trigger when a user or existing workflow names ops-codex-session-maintenance. Do not use for application code performance, model prompt tuning, live conversation compaction, process killing, automation scheduling unless requested, or deleting user data.
+  Maintain local Codex Desktop/App state when Codex feels slow, session history is heavy, logs or worktrees are large, or the user asks to inspect, archive, clean up, rotate, hand off, reset, or speed up Codex sessions. Use for inspect-first, backup-first local state maintenance: measure hotspots, create handoffs for useful long sessions, archive stale sessions/worktrees, rotate logs, prune clearly dead project paths only after backup and confirmation, and report concrete verification. Do not use for application code performance, model prompt tuning, live conversation compaction, process killing, automation scheduling unless requested, or deleting user data.
 ---
 
 # Codex Session Maintenance

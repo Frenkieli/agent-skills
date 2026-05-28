@@ -28,7 +28,7 @@ Use this skill after there is a prompt artifact to maintain: a `SKILL.md`, rules
 
 Use `skill-creator` instead when the main task is to create a brand-new skill, design skill evals, benchmark a skill, or optimize skill triggering from scratch.
 
-Use `meta-context-engineering-global` or `meta-context-engineering-project` when the main question is where a rule belongs: global rules, project rules, a skill, tooling, task context, or an external system. Use this skill once the prompt artifact is selected or when the requested work is specifically GPT prompt quality.
+Use `context-engineering` when the main question is where a rule belongs: global rules, project rules, a skill, tooling, task context, or an external system. Use this skill once the prompt artifact is selected or when the requested work is specifically GPT prompt quality.
 
 Use writing or editing skills for ordinary prose polishing. Do not turn blog drafts, documentation prose, customer copy, or creative writing into prompt maintenance unless the text is itself an instruction to a model.
 
@@ -77,7 +77,7 @@ The body should start with outcome and constraints before process. Keep referenc
 
 For skills with user-stated acceptance, safety, parity, quality, or evidence invariants, promote each invariant into a hard gate. A hard gate defines when it activates, what fields or artifacts are required, which weaker substitutes are insufficient, what self-review should catch, and what evidence is required before completion.
 
-When modifying existing skills, preserve name continuity and existing aliases that still help triggering. Do not rename directories, update indexes, or sync installed skills unless the user asked for those operations.
+When modifying existing skills, do not rename directories, update indexes, or sync installed skills unless the user asked for those operations.
 
 ### Eval And Grader Prompts
 
