@@ -1,16 +1,39 @@
 ---
 name: code-review
 description: >-
-  Review concrete code plan drafts, specs, diffs, and implementation shapes. Use for code-review requests and serious code-plan design critique. Focus on design shape, public contracts, state/schema/persistence, tests, local fit, and actionable findings. Near miss: use code-plan to create or revise plans; use code-scope-gate for pre-spec scope shaping.
+  Review concrete code plan drafts, specs, diffs, and implementation shapes. Use for code-review requests, serious code-plan design critique, and judging whether a proposed direction is sound. Prioritize solution direction, premise validity, logic chain, constraints, alternatives, design shape, contracts, tests, local fit, and actionable findings. Near miss: use code-plan to create or revise plans; use code-scope-gate for pre-spec scope shaping.
 ---
 
 # Code Review
 
-Perform an adversarial review of the change. Look for opportunities to **reduce layers** (pass-through wrappers, single-use abstractions), **remove complexity** (code-judo: restructurings that delete branches/modes/helpers, not rearrange them), and **increase reliability** (correctness, contract, state, concurrency, migration risk). Honor repo-wide policies (`AGENTS.md`, `CONTRIBUTING.md`, ADRs) as hard constraints. Verify what you can. Keep the original intent — simplify the *same* change, don't redirect scope.
+Perform an adversarial review of the change. Look for opportunities to **reduce layers** (pass-through wrappers, single-use abstractions), **remove complexity** (code-judo: restructurings that delete branches/modes/helpers, not rearrange them), and **increase reliability** (correctness, contract, state, concurrency, migration risk). For plan and spec reviews, judge the chosen direction before acceptance or test details: whether it solves the stated problem, rests on valid premises, assigns ownership to the right layer, fits observed constraints, and beats credible lower-scope or root-cause alternatives. Honor repo-wide policies (`AGENTS.md`, `CONTRIBUTING.md`, ADRs) as hard constraints. Verify what you can. Keep the original goal fixed; challenge the proposed route when evidence shows a better route to that same goal.
 
 ## Attribution
 
 Distinguish **NEW** (introduced or made materially worse by this change) from **PRE-EXISTING** (already true on the base branch). Compare against base — read the unchanged file or check blame, not just the diff hunks. Report PRE-EXISTING only when the change touches the same surface and it blocks the intended outcome, the change makes it worse, or the user asked for a broader audit. Tag every finding `[NEW]` or `[PRE-EXISTING]`; if uncertain, say so rather than defaulting to NEW.
+
+## Plan-Direction Gate
+
+Activate this gate when reviewing a plan, spec, proposed implementation approach, migration design, or any request asking whether an approach is right, wrong, best, optimal, or worth doing.
+
+Required evidence before judging plan quality:
+
+- Target outcome and explicit constraints from the prompt, repo evidence, linked issue, or local project rules.
+- The plan's chosen strategy and ownership point: data source, state write, shared contract, call boundary, persistence/schema boundary, or presentation layer.
+- A checked logic chain from problem → decision point/root cause → proposed change → intended effect.
+- Credible alternatives within the same authorized goal, especially earlier fix points, smaller-scope routes, deletion of unnecessary layers, and existing local owners.
+- A bounded optimality judgment: best-supported under observed constraints, adequate but suboptimal, wrong/unsupported, or unjudged without named evidence or a user decision.
+
+Prohibited substitutes:
+
+- Acceptance criteria, test coverage, rollout steps, milestone structure, extra documentation, or clearer wording do not satisfy this gate unless they also support the direction judgment.
+- A plan that proves the proposed path can work does not satisfy this gate unless the review also checks whether it is the right path for the stated problem and constraints.
+- "Could be cleaner" does not satisfy this gate without naming the violated invariant, extra complexity accepted, or better owner/fix point.
+
+Incomplete behavior:
+
+- If missing evidence materially affects the direction judgment, state the missing evidence as an open question and mark the direction unjudged rather than validating it indirectly.
+- If the proposed plan is acceptable only as a compromise, state the invariant it sacrifices, the risk it accepts, the constraints it depends on, and the stop condition.
 
 ## Bar
 
@@ -36,6 +59,19 @@ Most reviews are inline — apply whichever lenses fit the change. When surfaces
 
 **Synthesis critic.** Dispatch when risk is high or evidence conflicts. Different role: challenges the draft findings, doesn't produce new candidates. Probes: evidence real, attribution correct against base, PRE-EXISTING justified, set clears the bar (drop low-value / excess nits), no bad duplicates/splits/severity, APOSD findings name reader-task/symptom/cause not slogans, severe sub-agent candidates not silently dropped, unreviewed surfaces acknowledged. Returns per challenge: target finding (or missing area), issue, evidence, action (keep / drop / retag / reword / reorder / verify / surface in judgment).
 
+## Self-Review
+
+Before final output, check:
+
+- Could this review sound useful while only strengthening acceptance, tests, rollout, or wording without judging the plan direction? If yes, the review is incomplete for a plan/spec request.
+- Does every direction-level judgment cite observed evidence or explicitly mark the missing evidence?
+- Are direction, premise, ownership, or logic-chain findings ordered before acceptance/test findings of equal or lower severity?
+- Does the review distinguish "best-supported under these constraints" from a theoretical global optimum?
+
 ## Output
 
-User's primary language for prose; keep code symbols, paths, errors original. Return: findings (each prefixed `[NEW]`/`[PRE-EXISTING]` and severity-tagged) → open questions that materially change the decision → short overall judgment (note blocked/unreviewed surfaces). No edits, commits, or pushes without separate authorization.
+User's primary language for prose; keep code symbols, paths, errors original. Return: findings (each prefixed `[NEW]`/`[PRE-EXISTING]` and severity-tagged) → open questions that materially change the decision → short overall judgment (note blocked/unreviewed surfaces). For plan/spec reviews, the findings section starts with direction, premise, ownership, and logic-chain issues when present; the overall judgment names the direction verdict: best-supported, adequate but suboptimal, wrong/unsupported, or unjudged. No edits, commits, or pushes without separate authorization.
+
+## Stop Rules
+
+For plan/spec reviews, finish only after the Plan-Direction Gate has a stated verdict, material open questions are named, and acceptance/test observations have not displaced a more important direction judgment. For diff/code reviews, finish only after attribution, severity, and residual risk are clear. If verification is unavailable or out of scope, state the next-best evidence used.
