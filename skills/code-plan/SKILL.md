@@ -54,7 +54,7 @@ Ask a focused question when a missing fact would materially change the plan or a
 
 High-impact missing facts include target files or surfaces, source-of-truth behavior, allowed differences, required verification commands, credentials, deployment, destructive actions, persistent config changes, and public contract changes.
 
-Use independent research only for questions whose answers can materially improve the plan. When sub-agents might help, use `meta-subagent-orchestration` to decide whether delegation is authorized and worth the overhead. If delegation is not used, keep the research local and record the skip reason only when it affects coverage, risk, or trust.
+Use independent research only for questions whose answers can materially improve the plan. When sub-agents might help, use `subagent-delegation` to decide whether delegation is authorized and worth the overhead. If delegation is not used, keep the research local and record the skip reason only when it affects coverage, risk, or trust.
 
 ## Planning Clarity Gate
 
@@ -134,7 +134,7 @@ Activate this gate when a high-quality plan needs evidence that can be researche
 
 Before delegated or independent review, the main session must define a compact draft planning frame: `Objective`, `Scope`, `Non-goals`, known constraints, candidate approach, suspected regression surface, and the exact questions the research or review must answer. The draft can be incomplete, but it must contain enough context for another agent or local review pass to investigate without inventing the goal.
 
-Use `meta-subagent-orchestration` before any sub-agent operation. Delegate only when that skill classifies delegation as authorized and useful. Useful independent tasks include:
+Use `subagent-delegation` before any sub-agent operation. Delegate only when that skill classifies delegation as authorized and useful. Useful independent tasks include:
 
 - inspecting regression surface and existing test coverage
 - checking public API, schema, persistence, or migration compatibility
@@ -153,7 +153,7 @@ When delegation is authorized, load only the sub-agent prompt file needed for th
 
 Delegated or local independent work is valid only when it has a bounded question, an expected evidence format, and an integration target in the final plan. Useful outputs include regression surfaces, baseline commands, affected files, public contracts, existing test coverage, coverage gaps, risks, and recommended verification evidence.
 
-Weak substitutes do not satisfy this gate: asking a sub-agent to "review the plan", delegating broad planning ownership, bypassing `meta-subagent-orchestration`, pasting unintegrated findings, adding ceremonial parallel tasks, treating another agent's conclusion as accepted without source evidence, or delegating work the main session can answer from already inspected context.
+Weak substitutes do not satisfy this gate: asking a sub-agent to "review the plan", delegating broad planning ownership, bypassing `subagent-delegation`, pasting unintegrated findings, adding ceremonial parallel tasks, treating another agent's conclusion as accepted without source evidence, or delegating work the main session can answer from already inspected context.
 
 The final plan must integrate delegated findings into the relevant sections, especially `Required context`, `Proposed approach`, `Work sequence`, `Acceptance, regression evidence, and verification`, `Risks and rabbit holes`, `Checkpoints`, `Pause conditions`, and `Stop condition`. Keep only findings that change scope, order, evidence, risk, or completion criteria.
 
@@ -278,7 +278,7 @@ Before returning the plan, check:
 - Could an agent execute the plan without inventing the background, objective, boundaries, or order?
 - For serious or uncertain plans, did the main session draft enough context and use or explicitly skip useful independent research?
 - If delegated research was used, did the main session define the objective, scope, non-goals, and exact research questions before delegation?
-- If delegation was considered, did the plan rely on `meta-subagent-orchestration` for authorization and coordination?
+- If delegation was considered, did the plan rely on `subagent-delegation` for authorization and coordination?
 - Did each delegated finding change a concrete part of the final plan: scope, sequence, regression evidence, risk, checkpoint, pause condition, or stop condition?
 - Are any delegated tasks ceremonial, broad, unbounded, or pasted without integration? If yes, remove them or rewrite them into bounded evidence questions.
 - If the plan has design-shape risk, did `code-review` or an equivalent design critique inspect interface depth, information hiding, invariant/error ownership, and complexity pushed to callers?

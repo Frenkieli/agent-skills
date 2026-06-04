@@ -47,7 +47,7 @@ For draft-plan reviews, corrections are plan changes (revised approach, added co
 
 ## Lenses
 
-Most reviews are inline — apply whichever lenses fit the change. When surfaces fan out or risk concentrates (multi-file, public API/CLI/schema/migration/persistence), dispatch focused sub-agents using the lens descriptions below as their prompts (consult `meta-subagent-orchestration` first). Sub-agents stay read-only, apply the attribution rule, and return concrete candidates with source pointers — silence is a valid output.
+Most reviews are inline — apply whichever lenses fit the change. When surfaces fan out or risk concentrates (multi-file, public API/CLI/schema/migration/persistence), dispatch focused sub-agents using the lens descriptions below as their prompts (consult `subagent-delegation` first). Sub-agents stay read-only, apply the attribution rule, and return concrete candidates with source pointers — silence is a valid output.
 
 **Design shape.** Shallow interfaces, information leakage, tactical patches adding branches/modes/fallbacks without reducing underlying complexity, weak ownership boundaries, error handling that should be removed by design, layers that only forward calls. Use APOSD vocabulary ([references/aposd-complexity-review.md](references/aposd-complexity-review.md)) — every design finding names reader task + symptom (change amplification / cognitive load / unknown-unknown) + cause (dependency / obscurity). Reject "cleaner" / "more DRY" / "add comments" without that mapping.
 

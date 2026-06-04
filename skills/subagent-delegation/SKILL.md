@@ -1,10 +1,10 @@
 ---
-name: meta-subagent-orchestration
+name: subagent-delegation
 description: >-
   Decide whether and how to use authorized sub-agents, then coordinate delegated work while preserving the main agent's context. Use when the user asks for orchestration, parallel agents, delegation, background workers, context isolation, or when another skill needs delegated research, review, implementation, or verification. Owns host-policy checks, delegation packets, non-overlap, report verification, and stop rules. Do not use to bypass tool policy, infer user authorization, or add coordination overhead to simple single-threaded tasks.
 ---
 
-# Meta Subagent Orchestration
+# Subagent Delegation
 
 Use this skill to coordinate sub-agents without turning the main agent into a duplicate worker.
 
