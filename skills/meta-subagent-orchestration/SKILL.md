@@ -187,6 +187,8 @@ Bad partitions:
 - Agents asked to "research everything" or "find issues" with no boundary.
 - Agents whose findings must constantly inform each other before either can proceed.
 
+Cross-cutting concerns are not partitions. When one behavior or invariant has its definition and its enforcement in files that land in different partitions — a guard or permission check, feature flag, validation or error contract, auth boundary — splitting by module slices that thread across agents and leaves no owner for the whole of it. Give such a concern a single owner that follows it across partition boundaries, or keep an orchestrator coverage checklist reconciled against what each agent reports it did not inspect. This is the dual of non-overlap: guard against work that falls between partitions, not only work covered twice.
+
 ### 4. Write A Delegation Packet
 
 Each sub-agent gets a concrete task packet. Include only the context it needs.
@@ -369,6 +371,7 @@ Watch for these failure modes:
 - The main agent delegates, then immediately repeats the same exploration locally.
 - Sub-agents receive broad tasks with no stop condition.
 - Multiple workers edit the same file or shared contract.
+- A behavior or invariant is split across partitions and no agent owns the whole thread, so a dropped guard or contract falls through the seam.
 - The orchestrator waits idly even though unrelated critical-path work is available.
 - The orchestrator trusts a report with no evidence.
 - The orchestrator asks for exhaustive verification when spot-checking the report would be enough.
