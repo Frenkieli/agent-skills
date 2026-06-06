@@ -18,7 +18,7 @@ Do not produce a full rewrite unless the user asks for one.
 2. Read the full article with the core reader in mind.
 3. Simulate a first-time reader at the article level: what they know, what they
    expect next, and where the article breaks that expectation.
-4. Check the layers below and report only problems that actually appear.
+4. Check the layers below and report only problems that appear.
 5. Provide a revision plan at outline or paragraph level when structure needs to
    change.
 

@@ -11,7 +11,7 @@ description: >-
 
 Produce one self-contained engineering plan that another agent can execute without losing the user's intent, context, boundaries, validation bar, implementation strategy, ordering, or stopping condition.
 
-A plan is not just a Goal contract and not just a task list. It should explain why the work matters, what must be true at the end, how the work should be approached, what order to use, how to verify it, which risks to watch, and when to pause or stop.
+A plan is not just a Goal contract and not just a task list. It explains why the work matters, what must be true at the end, the approach and order, how to verify it, which risks to watch, and when to pause or stop.
 
 ## Hard Requirements
 
@@ -89,7 +89,7 @@ If an unauthorized boundary change is required to satisfy the request, the plan 
 
 ## Plan Shape
 
-Use the shortest structure that preserves the plan's executable value. For most coding plans, use these sections in this order:
+Use the shortest structure that preserves executable value. For most coding plans, use these sections in this order:
 
 1. `Clarification status` - clear enough, assumptions, or blockers.
 2. `Background / problem` - why this work exists and what pain or requirement it addresses.
@@ -128,7 +128,7 @@ When automation is unavailable, define manual evidence: reviewer, artifact, rubr
 
 ### Planning Iteration And Independent Evidence Gate
 
-Treat every serious plan as an artifact that should withstand scrutiny. Do not jump from first understanding to final plan when independent research or review could materially improve correctness.
+Do not jump from first understanding to final plan when independent research or review could materially improve correctness.
 
 Activate this gate when a high-quality plan needs evidence that can be researched independently before the final plan is written, such as regression surface analysis, source-of-truth behavior, migration parity, public contract risk, visual reference review, test strategy, or implementation touchpoint discovery.
 
@@ -207,7 +207,7 @@ If no material design choice exists, say so, explain the inspected surface, and 
 
 ### Regression Evidence
 
-Regression evidence is usually more important than proving the new code path once. A plan must identify the existing behavior, public contract, workflow, data format, visual surface, or integration boundary that the change could accidentally break.
+A plan must identify the existing behavior, public contract, workflow, data format, visual surface, or integration boundary that the change could accidentally break, since protecting existing behavior usually matters more than proving the new code path once.
 
 For each material work slice, define both:
 
@@ -220,7 +220,7 @@ Do not satisfy regression evidence with weak substitutes such as a new-code-only
 
 For high-risk work, plan a baseline check before edits when feasible, so pre-existing failures are distinguished from new regressions. If full regression coverage is too expensive, stale, unavailable, or already failing, name the `Regression gap`, the accepted risk, and the next best evidence.
 
-If the project does not have enough tests to cover the regression surface, finish the plan with a `Test gap decision` question. Ask whether the remaining gaps should be covered by targeted behavior test cases or end-to-end tests. For web projects, recommend end-to-end tests unless a lower-level public-boundary test clearly gives equal confidence at lower cost.
+If the project does not have enough tests to cover the regression surface, finish the plan with a `Test gap decision` question. Ask whether the remaining gaps should be covered by targeted behavior test cases or end-to-end tests. For web projects, prefer end-to-end tests unless a lower-level public-boundary test clearly gives equal confidence at lower cost.
 
 Do not silently choose to add broad tests, defer the gap, or treat manual smoke as enough when the user needs to decide the coverage strategy.
 
@@ -280,7 +280,7 @@ Before returning the plan, check:
 - If delegated research was used, did the main session define the objective, scope, non-goals, and exact research questions before delegation?
 - If delegation was considered, did the plan rely on `subagent-delegation` for authorization and coordination?
 - Did each delegated finding change a concrete part of the final plan: scope, sequence, regression evidence, risk, checkpoint, pause condition, or stop condition?
-- Are any delegated tasks ceremonial, broad, unbounded, or pasted without integration? If yes, remove them or rewrite them into bounded evidence questions.
+- Are any delegated tasks ceremonial, broad, unbounded, or pasted without integration? If so, remove or rewrite them into bounded evidence questions.
 - If the plan has design-shape risk, did `code-review` or an equivalent design critique inspect interface depth, information hiding, invariant/error ownership, and complexity pushed to callers?
 - Did design-review findings change the final plan, or does `Planning iteration` explain why no plan change was needed?
 - If the user triggered `design twice`, did the follow-up preserve the original plan frame, compare at least two real options, avoid strawmen, and map tradeoffs to APOSD complexity symptoms and causes?

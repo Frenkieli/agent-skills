@@ -1,7 +1,7 @@
 ---
 name: codex-session-maintenance
 description: >-
-  Maintain local Codex Desktop/App state when Codex feels slow, session history is heavy, logs or worktrees are large, or the user asks to inspect, archive, clean up, rotate, hand off, reset, or speed up Codex sessions. Use for inspect-first, backup-first local state maintenance: measure hotspots, create handoffs for useful long sessions, archive stale sessions/worktrees, rotate logs, prune clearly dead project paths only after backup and confirmation, and report concrete verification. Do not use for application code performance, model prompt tuning, live conversation compaction, process killing, automation scheduling unless requested, or deleting user data.
+  Maintain local Codex Desktop/App state when Codex feels slow, session history is heavy, logs or worktrees are large, or the user asks to inspect, archive, clean up, rotate, hand off, reset, or speed up Codex sessions. Do not use for application code performance, model prompt tuning, live conversation compaction, process killing, automation scheduling unless requested, or deleting user data.
 ---
 
 # Codex Session Maintenance
@@ -56,7 +56,7 @@ Start with one broad inventory:
 - process list for Codex and common dev servers
 - session, archive, worktree, log, config, memory, skill, plugin, and automation paths
 
-Deep-dive only into the top hot spots or paths above obvious thresholds. Read metadata first: path, size, modified time, git status, manifest/config parseability, and database integrity when relevant.
+Deep-dive only into the top hot spots or paths above obvious thresholds, reading metadata first: path, size, modified time, git status, manifest/config parseability, and database integrity when relevant.
 
 Do not read session JSONL contents unless creating a handoff. Search again only when a proposed mutation depends on missing facts, paths conflict, state looks ambiguous, or the user asks for comprehensive cleanup.
 
@@ -92,9 +92,9 @@ On Windows, watch for duplicate path forms such as `C:\...` and `\\?\C:\...`. No
 
 ## Cleanup Policy
 
-Prefer archiving or rotating over deleting. Back up important files before cleanup.
+Prefer archiving or rotating over deleting. Back up important files before cleanup. Before any cleanup mutation, confirm the Codex process check returns no running Codex; if it does, stop and ask the user to close Codex.
 
-Create a timestamped backup outside the active state tree, for example:
+Create a timestamped backup outside the active state tree:
 
 ```text
 ~/.codex-maintenance/backups/YYYYMMDD-HHMMSS/

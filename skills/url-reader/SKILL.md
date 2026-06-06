@@ -21,7 +21,7 @@ A good result:
 
 ## Constraints
 
-Use this for concrete URLs the user wants read, summarized, inspected, cited, or extracted. Do not use it as a broad web search tool for finding pages.
+Use this for concrete URLs the user wants read, summarized, inspected, cited, or extracted.
 
 Other skills that need article or webpage body content should route URL retrieval through this skill or an explicitly authorized domain-specific tool instead of duplicating URL privacy, extraction, and fallback rules.
 
@@ -38,7 +38,7 @@ Default to one `defuddle.md` extraction for public pages. If it returns empty co
 - the user asked for exhaustive coverage or comparison
 - the specified URL must be read and the first extraction failed
 
-Stop once the relevant content or facts are available. Do not fetch again just to improve phrasing, add decorative examples, or support nonessential wording.
+Stop once the relevant content or facts are available. Do not fetch again only to improve phrasing or add decorative examples.
 
 Fallback choices, in order:
 
@@ -57,7 +57,7 @@ Do not chain multiple fallbacks unless a required fact is still missing and the 
 curl -sL "https://defuddle.md/<url>"
 ```
 
-The request URL uses `https://defuddle.md/...`. Strip `https://` or `http://` from the target URL before appending it.
+Strip `https://` or `http://` from the target URL before appending it to `https://defuddle.md/`.
 
 Examples:
 
@@ -66,11 +66,9 @@ curl -sL "https://defuddle.md/example.com/blog/some-post"
 curl -sL "https://defuddle.md/x.com/username/status/123456789"
 ```
 
-Use `-sL` for silent mode and redirect following.
-
 ## Output
 
-Answer in the shape the user requested: summary, extraction, fact check, reference, or synthesis. Name the original URL and the retrieval path used when making factual claims. Do not dump the full extracted Markdown unless the user asks for raw content or excerpts.
+Answer in the shape the user requested: summary, extraction, fact check, reference, or synthesis. Name the original URL and the retrieval path used (defuddle.md extraction, a domain tool, direct fetch, local/browser/app, or user-pasted content) when making factual claims. Do not dump the full extracted Markdown unless the user asks for raw content or excerpts.
 
 If extraction fails, state what was tried, what failed, and the smallest useful next step.
 

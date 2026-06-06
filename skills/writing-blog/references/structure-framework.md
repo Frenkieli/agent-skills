@@ -9,8 +9,8 @@ A blog article should let readers stop anywhere and still feel that they
 understand up to that point. Give the conclusion before evidence and the whole
 picture before details.
 
-Do not organize by how the author thought of the idea. Organize by how the
-reader can understand it.
+Organize by how the reader can understand the idea, not by how the author
+thought of it.
 
 ## Opening: SCQA
 

@@ -29,7 +29,7 @@ A draft succeeds when it has:
 
 ## Material Preservation
 
-Do not delete author-provided material lightly. Personal experience, source of
+Do not delete author-provided material without reason. Personal experience, source of
 inspiration, hesitation, emotional judgment, and rough examples may carry the
 article's real intent.
 

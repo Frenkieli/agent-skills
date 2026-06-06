@@ -8,7 +8,7 @@ description: >-
 
 ## Goal
 
-Maintain prompt artifacts so GPT-series models receive clear, outcome-first instructions with enough constraints, evidence guidance, validation, and stop rules to complete the user's requested work without unnecessary process noise.
+Maintain prompt artifacts so GPT-series models receive clear, outcome-first instructions with the constraints, evidence guidance, validation, and stop rules needed to complete the user's requested work without unnecessary process noise.
 
 ## Success Criteria
 
@@ -24,11 +24,11 @@ A good prompt-maintenance result:
 
 ## Boundaries
 
-Use this skill after there is a prompt artifact to maintain: a `SKILL.md`, rules file, system/developer prompt, product prompt, agent workflow prompt, eval prompt, grader prompt, or comparable reusable instruction block.
+Use this skill once a prompt artifact exists to maintain: a `SKILL.md`, rules file, system/developer prompt, product prompt, agent workflow prompt, eval prompt, grader prompt, or comparable reusable instruction block.
 
 Use `skill-creator` instead when the main task is to create a brand-new skill, design skill evals, benchmark a skill, or optimize skill triggering from scratch.
 
-Use `context-engineering` when the main question is where a rule belongs: global rules, project rules, a skill, tooling, task context, or an external system. Use this skill once the prompt artifact is selected or when the requested work is specifically GPT prompt quality.
+Use `context-engineering` when the main question is where a rule belongs: global rules, project rules, a skill, tooling, task context, or an external system — unless the prompt artifact is already selected or the work is specifically GPT prompt quality.
 
 Use writing or editing skills for ordinary prose polishing. Do not turn blog drafts, documentation prose, customer copy, or creative writing into prompt maintenance unless the text is itself an instruction to a model.
 
@@ -45,7 +45,7 @@ Continue retrieval only when:
 - the user asks for comprehensive coverage, batch migration, or comparison
 - a model-specific recommendation would otherwise be unsupported
 
-Stop retrieval once the core rewrite can be justified. Do not search again for phrasing, decorative examples, or noncritical background.
+Stop retrieval once the core rewrite can be justified; do not search again for phrasing, decorative examples, or noncritical background.
 
 When the source is a local file supplied by the user, prefer that file over web search. Use official OpenAI sources for external refreshes unless the user requests another source.
 
@@ -149,7 +149,7 @@ For reasoning guidance, ask for concise rationale, checks, or evidence in the fi
 
 ## Batch Maintenance
 
-When maintaining multiple prompt artifacts, process each artifact on its own terms. Do not collapse all artifacts into one common rewrite unless the user asks for a shared template.
+When maintaining multiple prompt artifacts, process each artifact on its own terms. Collapse them into a shared rewrite only when the user asks for a common template.
 
 For each artifact:
 
@@ -172,6 +172,8 @@ Choose validation that matches the artifact:
 - For visual or document prompts, render or inspect the artifact when feasible.
 - For eval or grader prompts, test at least one should-pass and one should-fail case when practical.
 
+After rewriting a prompt that carries user acceptance, safety, parity, or quality invariants, run an adversarial check: could an agent follow the rewritten prompt and skip the invariant while still sounding compliant? If so, strengthen the gate, required output field, or stop rule before finishing.
+
 If validation cannot run, say why and name the next best check.
 
 ## Output
@@ -193,4 +195,4 @@ Stop when the requested prompt artifacts are rewritten or reviewed, evidence and
 
 Ask one narrow question only when missing information would change the target artifact, model family, product behavior, authorization boundary, or validation claim.
 
-Do not keep optimizing wording after the prompt is already clear, scoped, supported, and testable.
+Stop optimizing wording once the prompt is clear, scoped, supported, and testable.

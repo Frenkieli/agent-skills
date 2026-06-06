@@ -1,7 +1,7 @@
 ---
 name: writing-blog-illustration
 description: >-
-  Generate English image-model prompts for blog or article illustrations in a colorful cartoon infographic style. Use when the user asks for an illustration prompt, image prompt, concept diagram prompt, system-architecture visual prompt, comparison visual prompt, or blog/article illustration prompt, including requests to draw, illustrate, create an image prompt, make an illustration, create an infographic, or write an image prompt. This skill returns text prompts, not generated images; if the user asks Codex to directly create or edit a bitmap image, use image generation instead unless they explicitly want a prompt.
+  Generate English image-model prompts for blog or article illustrations in a colorful cartoon infographic style. Use when the user asks for an illustration, image, infographic, concept-diagram, system-architecture, or comparison-visual prompt for a blog or article. Returns a text prompt, not a generated image; if the user wants Codex to directly create or edit an image, use image generation instead unless they explicitly want a prompt.
 ---
 
 # Blog Illustration Prompt Generator
@@ -42,7 +42,7 @@ Use this house style unless the user asks for a more serious, technical, editori
 
 Use the user's provided text, article draft, title, notes, screenshot, or conversation as the source of truth.
 
-If the user provides a URL and its contents are needed, use `url-reader` or an explicitly authorized domain-specific/local method to retrieve the body content. Do not duplicate URL privacy or fallback rules in this skill.
+If the user provides a URL and its contents are needed, use `url-reader` or an explicitly authorized domain-specific/local method to retrieve the body content.
 
 If the user provides a file, screenshot, or named article and its contents are needed, read only enough to identify the visual thesis, components, relationships, and required labels.
 
@@ -52,7 +52,7 @@ Stop reading once the core visual structure and labels are clear. Do not search 
 
 ### Content Fit
 
-Derive three to six visual anchors from the source: actors, concepts, stages, or contrasts. If the content has more than six distinct elements, default to suggesting a split or compress the prompt to the most important three to six anchors when the user insists on one image.
+Derive three to six visual anchors from the source: actors, concepts, stages, or contrasts. If the content has more than six distinct elements, suggest a split, or compress to the most important three to six anchors when the user insists on one image.
 
 ### Metaphor Choice
 
@@ -104,4 +104,4 @@ The final prompt should contain:
 
 If enough context exists, output the prompt directly. Ask one narrow question only if the missing answer changes visual meaning, audience, label language, or image format.
 
-Before finalizing, check that the prompt is one usable English prompt, fits the word budget, has short labels, includes layout/style/technical specs, avoids invented facts, and does not directly generate an image.
+Before finalizing, check that the prompt is one usable English prompt with in-image labels in another language only when the user explicitly requested it, fits the word budget, has short labels, includes layout/style/technical specs, avoids invented facts, and does not directly generate an image.

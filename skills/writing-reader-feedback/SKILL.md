@@ -5,8 +5,8 @@ description: >-
   report raw reading-experience feedback, not writing advice. Use when the user
   asks how a specific audience would experience a draft, whether readers can
   understand it, or wants reader role-play. Trigger on reader simulation, reader
-  feedback, reader perspective, whether readers can understand a piece, reading
-  experience, or testing how a target reader reacts. For general writing
+  feedback, reader perspective, reading experience, or testing how a target
+  reader reacts. For general writing
   improvement, draft polishing, structural optimization, or revision plans, use
   writing-blog instead.
 ---
@@ -15,14 +15,11 @@ description: >-
 
 ## Goal
 
-Simulate a real reader reading an article in order, section by section, with the background and knowledge state specified by the user. The task is not to give writing advice. The task is to record what happens in the reader's mind: expectations, confusion, expectation shifts, lack of interest, emotional reaction, and motivation to continue.
+Simulate a real reader reading an article section by section, with the background and knowledge state specified by the user. The task is not to give writing advice. The task is to record what happens in the reader's mind: expectations, confusion, expectation shifts, lack of interest, emotional reaction, and motivation to continue.
 
 The deliverable is a reading-experience report that records the reader's experience at each section.
 
 Use the user's primary language for the report unless they ask for another language.
-
-Keep this skill separate from `writing-blog`: this skill reports what the reader
-thinks and feels while reading; `writing-blog` decides how to change the article.
 
 ## Success Criteria And Stop Condition
 
@@ -42,10 +39,7 @@ Stop after the full article has been read and the overall impression has been re
 
 ### 1. Get The Article
 
-The user may provide a file path or webpage URL:
-
-- **File path**: read the target file.
-- **Webpage URL**: use `url-reader` or `WebFetch` to extract the body text.
+Get the article per Evidence And Reading Boundaries (direct text, file path, or webpage URL).
 
 ### 2. Establish The Reader Persona
 

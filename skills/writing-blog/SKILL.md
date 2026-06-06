@@ -31,10 +31,9 @@ Do not invent new claims, examples, product facts, metrics, roadmap status,
 customer names, or external background. If source material is missing, mark the
 gap or ask for author input.
 
-Do not turn this skill into raw reader simulation. When the user wants to know
-what a reader thinks or feels while reading, use `writing-reader-feedback`
-instead. This skill produces writing decisions, structure, drafts, rewrites, and
-revision guidance.
+When the user wants to know what a reader thinks or feels while reading, use
+`writing-reader-feedback` instead. This skill produces writing decisions,
+structure, drafts, rewrites, and revision guidance.
 
 ## Choose The Work Mode
 
@@ -53,8 +52,8 @@ Choose the narrowest mode that matches the request:
 - **Outline**: the user wants a proposed article structure before drafting.
   Read `references/structure-framework.md`.
 
-Do not run every mode by default. For example, a direct rewrite request should
-not become a long diagnosis unless the user asks for one.
+Run only the mode that matches the request; a direct rewrite should not become a
+diagnosis unless the user asks for one.
 
 ## Evidence And Reading Boundaries
 
@@ -65,7 +64,7 @@ not become a long diagnosis unless the user asks for one.
   body is missing, truncated, or obviously not the target article.
 - Prefer frontmatter and conversation context for `audience`, `takeaway`, and
   publishing intent.
-- Ask one narrow question only when missing `audience`, `takeaway`, source
+- Ask one narrow question only when a missing `audience`, `takeaway`, source
   material, or authorization would materially change the output. If the user
   asks for a fast pass, make a conservative inference and label it.
 - Distinguish source facts, source-based inference, editorial judgment, and
@@ -80,7 +79,7 @@ order:
 2. User-specified audience in the conversation.
 3. Conservative inference from the article content.
 
-Treat the core reader as a smart beginner in this specific topic unless the user
+Treat the core reader as a smart beginner in this topic unless the user
 defines a different reader. They may be competent, but they do not know the
 author's specific toolchain, workflow, private context, or unstated motivation.
 
@@ -89,8 +88,9 @@ author's specific toolchain, workflow, private context, or unstated motivation.
 - For diagnosis, return concrete findings, locations, revision suggestions,
   priority, and any needed outline change. Do not rewrite the full article
   unless requested.
-- For draft mode, output the complete Markdown article after the outline is
-  accepted unless the user explicitly asks to skip confirmation.
+- For draft mode, present the outline and wait for confirmation before drafting,
+  then output the complete Markdown article unless the user explicitly asks to
+  skip confirmation.
 - For rewrite/polish mode, output the revised article or revised section
   directly, plus a short note on material moved, folded, or left unchanged when
   that affects author intent.

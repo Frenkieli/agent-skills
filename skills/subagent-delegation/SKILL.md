@@ -6,9 +6,7 @@ description: >-
 
 # Subagent Delegation
 
-Use this skill to coordinate sub-agents without turning the main agent into a duplicate worker.
-
-The goal is not to maximize the number of sub-agents. The goal is to protect the main agent's context and attention while still completing the user's requested work. Delegate bounded work that can run independently, then integrate the returned evidence.
+Coordinate sub-agents to protect the main agent's context and attention while completing the user's requested work, rather than to maximize the number of sub-agents. Delegate bounded work that can run independently, then integrate the returned evidence.
 
 This skill is tool-neutral. "Sub-agent" may mean a worker, explorer, background agent, forked agent, delegated session, agent thread, or any equivalent capability provided by the current coding or agent tool.
 
@@ -28,7 +26,7 @@ Follow the current host and tool policy before applying any orchestration rule i
 
 - Before any `spawn`, `message`, `resume`, or `wait` operation, classify delegation status as `explicitly authorized`, `host-authorized`, or `not authorized`.
 - If sub-agent calls require explicit user authorization, treat benefit signals as planning inputs only. Do not spawn, message, resume, or wait on sub-agents unless the user explicitly asked for sub-agents, delegation, parallel agents, or equivalent agent work.
-- If the host permits autonomous delegation, use the use/not-use rules below to decide whether delegation is worth the coordination cost.
+- If the host permits autonomous delegation, use the use/not-use rules below to decide whether delegation is worth the cost.
 - Do not create external infrastructure, durable state, issue trackers, queues, files, commits, branches, or other side effects for coordination unless the user authorized that surface or the artifact already exists inside the requested work.
 - If delegation would change the authorization boundary, ask one narrow question or keep the work local.
 - If delegation is not authorized or not worth the overhead, record the skip reason in the final output only when that reason affects user trust, coverage, or verification.
@@ -52,7 +50,7 @@ Sub-agents own:
 - Bounded implementation within explicit ownership.
 - Reports that compress their work into actionable findings.
 
-Do not delegate the same task and then redo it locally while the sub-agent is still responsible for it. That defeats the purpose of context isolation and parallelism.
+Do not delegate a task and then redo it locally while the sub-agent is still responsible for it; that defeats context isolation and parallelism.
 
 The main agent may verify returned work, but verification starts after the relevant report exists or at an explicit checkpoint. Until then, the main agent works only on non-overlapping tasks or waits.
 
@@ -102,7 +100,7 @@ Treat these as coordination patterns, not permission to create infrastructure. U
 | Collaborative research where agents must build on each other's findings | Authorized shared state with write rules |
 | Quality-critical output with explicit criteria | Generator-verifier |
 
-If using orchestrator-subagent and the same worker needs repeated follow-ups, consider resuming that worker or switching to an agent-team pattern instead of repeatedly spawning fresh agents with duplicated context.
+If the same worker needs repeated follow-ups, consider resuming that worker or switching to an agent-team pattern instead of repeatedly spawning fresh agents with duplicated context.
 
 If using shared state, define termination conditions before starting: time budget, max rounds, no-new-findings threshold, or a designated finisher. Without a stop rule, shared-state agents tend to duplicate work or loop.
 
@@ -187,7 +185,7 @@ Bad partitions:
 - Agents asked to "research everything" or "find issues" with no boundary.
 - Agents whose findings must constantly inform each other before either can proceed.
 
-Cross-cutting concerns are not partitions. When one behavior or invariant has its definition and its enforcement in files that land in different partitions — a guard or permission check, feature flag, validation or error contract, auth boundary — splitting by module slices that thread across agents and leaves no owner for the whole of it. Give such a concern a single owner that follows it across partition boundaries, or keep an orchestrator coverage checklist reconciled against what each agent reports it did not inspect. This is the dual of non-overlap: guard against work that falls between partitions, not only work covered twice.
+Cross-cutting concerns are not partitions. When one behavior or invariant has its definition and its enforcement in files that land in different partitions — a guard or permission check, feature flag, validation or error contract, auth boundary — splitting by module slices that thread across agents and leaves no owner for the whole of it. Give such a concern a single owner that follows it across partition boundaries, or keep an orchestrator coverage checklist reconciled against what each agent reports it did not inspect.
 
 ### 4. Write A Delegation Packet
 
@@ -350,7 +348,7 @@ Use when quality risk is high.
 - Verifier checks against explicit criteria.
 - Main agent uses verifier feedback to revise or accept.
 
-The verifier must have a concrete rubric. "Check if this is good" is not enough.
+The verifier must have a concrete rubric.
 
 Limit verifier loops. If the generator cannot address the same feedback after the agreed limit, escalate, return the best result with caveats, or ask the user for a decision.
 
@@ -388,7 +386,7 @@ When this skill triggers, keep the visible orchestration note short unless the u
 Orchestration:
 - Delegation status: [explicitly authorized / host-authorized / not authorized, with brief reason]
 - Main thread: [critical-path work kept local]
-- Delegated: [sub-agent tasks and ownership]
+- Delegated: [sub-agent tasks, with disjoint file ownership noted when any agents edit concurrently]
 - Non-overlap: [what the main agent will not duplicate while agents run]
 - Ledger: [where status/evidence will be tracked, if any]
 - Integration: [how reports will be checked and merged]

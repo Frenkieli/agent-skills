@@ -37,9 +37,9 @@ Incomplete behavior:
 
 ## Bar
 
-Volume is failure. Each finding names a concrete surface, the impact, and the smallest correction. Drop anything that wouldn't change the merge decision or follow-up plan. Cap nits at three — if you have more, the bar is too low.
+Volume is failure. Each finding names a concrete surface, the impact, and the smallest correction. Drop anything that wouldn't change the merge decision or follow-up plan. Cap nits (style/naming only) at three — if you have more, the bar is too low.
 
-Filter on severity and merge-relevance, not on your own confidence. Investigate fully, then decide what to report: surface a plausible correctness/contract/state issue even when you are unsure of it — flag the uncertainty and what would confirm it — instead of dropping it silently because you can't fully prove it. Only style and naming nits get capped.
+Filter on severity and merge-relevance, not on your own confidence. Investigate fully, then decide what to report: surface a plausible correctness/contract/state issue even when you are unsure of it — flag the uncertainty and name what would confirm it, rather than dropping it silently.
 
 Severity: **blocker** (correctness/contract/state), **raise** (real issue, follow-up acceptable), **nit** (small polish). Order by severity. Split atomic findings when surface or correction differs; merge only exact duplicates. If nothing meets the bar, say so and name residual risk.
 
@@ -67,6 +67,7 @@ Before final output, check:
 - Does every direction-level judgment cite observed evidence or explicitly mark the missing evidence?
 - Are direction, premise, ownership, or logic-chain findings ordered before acceptance/test findings of equal or lower severity?
 - Does the review distinguish "best-supported under these constraints" from a theoretical global optimum?
+- For changes that replace or delete code, did the review enumerate the guards/preconditions the old surface enforced and confirm each survives — not just that capabilities were kept?
 
 ## Output
 

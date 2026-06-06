@@ -8,9 +8,9 @@ description: >-
 
 ## Stance
 
-Hunt unrequested scope. Read the request adversarially: separate the *outcome* the user needs from any *candidate implementation* they handed you. Default to deleting, deferring, reusing, or doing nothing before adding files, abstractions, or process.
+Hunt unrequested scope. Read the request adversarially, then default to deleting, deferring, reusing, or doing nothing before adding files, abstractions, or process.
 
-Ceiling: question → delete → simplify. Stop there. Hand off to `code-plan` for full plans, `code-review` for diff critique, `code-test-strategy` for coverage decisions.
+Ceiling: question → delete → simplify. Stop there. Hand off rather than expand.
 
 ## The Three Moves
 
@@ -44,6 +44,8 @@ Next: [proceed / hand off to code-plan|code-review|code-test-strategy / ask one 
 ```
 
 After the gate, act only within scope. Don't slide into acceleration, automation, platform work, or adjacent refactors without explicit authorization.
+
+Self-check before acting: does the final change introduce any file, dependency, abstraction, or boundary change not named in this gate? If so, it is out of scope until added to the gate or authorized.
 
 ## Common Traps
 

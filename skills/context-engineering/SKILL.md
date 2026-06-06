@@ -1,7 +1,7 @@
 ---
 name: context-engineering
 description: >-
-  Route durable rules and context to the right layer — task, project, skill, tooling, hooks, MCP, or global — and produce the smallest directly applicable edit. Use for global rules files (~/.claude/CLAUDE.md, global AGENTS.md), repo-local AGENTS.md/CLAUDE.md, task context packs, hook placement (Codex/Claude Code settings.json), collaboration friction diagnosis, and rule-placement decisions.
+  Route durable rules and context to the right layer — task, project, skill, tooling, hooks, MCP, or global. Use for global rules files (~/.claude/CLAUDE.md, global AGENTS.md), repo-local AGENTS.md/CLAUDE.md, task context packs, hook placement (Codex/Claude Code settings.json), collaboration friction diagnosis, and rule-placement decisions.
 ---
 
 # Context Engineering
@@ -22,5 +22,6 @@ Read the target artifact first — the rules file, candidate text, or friction e
 2. Concrete edit text or context block for the chosen layer.
 3. Items routed elsewhere, named by correct layer.
 4. Evidence read or evidence gap.
+5. Boundary note: confirm the edit stays within the requested artifact and layer; flag any change that would require touching another layer.
 
 Omit empty sections. Stop once classification, edit text, and routing are clear. Ask one narrow question only when missing information would change the layer, authorization boundary, or artifact.

@@ -1,7 +1,7 @@
 ---
 name: writing-humanizer
 description: >
-  Humanize Chinese or English drafts while preserving the original artifact, meaning, structure, factual claims, and technical boundaries. Use when the user asks to make writing less AI-like, more human, more natural, less generic, more authored, or when a draft feels over-polished, too symmetrical, generic, translated, or detached from the author's real judgment. Do not use this as an AI-word blacklist, synonym-replacement pass, fact-expansion pass, or request to make technical writing casually chatty.
+  Humanize Chinese or English drafts. Use when the user asks to make writing less AI-like, more human, more natural, less generic, more authored, or when a draft feels over-polished, too symmetrical, generic, translated, or detached from the author's real judgment. Do not use this as an AI-word blacklist, synonym-replacement pass, fact-expansion pass, or request to make technical writing casually chatty.
 ---
 
 # Writing Humanizer
@@ -10,7 +10,7 @@ description: >
 
 Make the draft sound authored and situated while preserving the original artifact, meaning, evidence, and boundary.
 
-Humanizing is not synonym replacement or removal of forbidden words. Human writing is defined by fit: a real speaker, talking to a real reader, under a real purpose, with selective evidence and lived judgment.
+Human writing is defined by fit, not synonym swaps or word blacklists: a real speaker, talking to a real reader, under a real purpose, with selective evidence and lived judgment.
 
 ## Success Criteria
 
@@ -100,7 +100,7 @@ Keep comments tied to exact sentences or passages. Do not use "AI flavor" as a s
 
 ## Validation
 
-For file edits, inspect the diff for meaning preservation. Check protected elements when present: frontmatter, headings, links, citations, code blocks, diagrams, file paths, commands, schema fields, and technical terms.
+For file edits, inspect the diff to confirm each changed claim keeps its original truth value and hedge level (no new certainty, no added or dropped claim), then check protected elements when present: frontmatter, headings, links, citations, code blocks, diagrams, file paths, commands, schema fields, and technical terms.
 
 For Markdown/docs edits, run `git diff --check -- <file>` when available and relevant. If validation cannot run, say why and name the next best check.
 

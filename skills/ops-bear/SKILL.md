@@ -1,7 +1,7 @@
 ---
 name: ops-bear
 description: >-
-  Use Bear App's local `bear` / `bearcli` command-line interface to read, search, create, append, edit, overwrite, tag, pin, archive, trash, restore, open, or manage attachments for Bear notes on this Mac. Use whenever the user mentions Bear App, Bear notes, Bear CLI, `bear`, `bearcli`, `bear help`, the local Bear database, Bear tags, pins, attachments, note capture, updating/retrieving notes from Bear, Bear MCP server setup, or checking this skill against current local CLI behavior. Do not use for Obsidian, generic Markdown files, web articles, or cloud note services; use the relevant local skill or tool instead.
+  Use Bear App's local `bear` / `bearcli` command-line interface to read, search, create, append, edit, overwrite, tag, pin, archive, trash, restore, open, or manage attachments for Bear notes on this Mac. Use whenever the user mentions Bear App, Bear notes, the `bear`/`bearcli` CLI, the local Bear database, Bear tags/pins/attachments, Bear MCP server setup, or checking this skill against current local CLI behavior. Do not use for Obsidian, generic Markdown files, web articles, or cloud note services; use the relevant local skill or tool instead.
 ---
 
 # Bear CLI
@@ -10,7 +10,7 @@ description: >-
 
 Use Bear's local CLI to operate on Bear notes while preserving note data and making mutations auditable.
 
-The CLI reads and writes the local Bear database in place. Treat Bear content as private local user data: retrieve only the fields needed for the request, avoid broad dumps, and verify mutations with the smallest useful follow-up read.
+The CLI reads and writes the local Bear database in place. Treat Bear content as private local user data: retrieve only the fields needed, avoid broad dumps, and verify mutations with the smallest useful follow-up read.
 
 If the user asks whether this skill is still accurate, or asks to update the skill against the local CLI, follow [evaluate.md](evaluate.md).
 
@@ -18,7 +18,7 @@ If the user asks whether this skill is still accurate, or asks to update the ski
 
 Requires Bear App installed on macOS. Prefer invoking `bear`; the underlying binary may be named `bearcli`.
 
-If the user has asked to use Bear and `bear` is not on `PATH`, make the bundled CLI discoverable when Bear is installed:
+If the user has asked to use Bear and `bear` is not on `PATH`, make the bundled CLI discoverable:
 
 ```bash
 if ! command -v bear >/dev/null 2>&1 && [ -x "/Applications/Bear.app/Contents/MacOS/bearcli" ]; then
@@ -38,7 +38,7 @@ If neither `bear` nor `/Applications/Bear.app/Contents/MacOS/bearcli` exists, re
 
 ## Start Bear First
 
-Before any Bear CLI command or `bear mcp-server` operation, make sure the Bear app is running. The CLI operates on Bear's local database; running it while the app is closed can leave the agent working against stale local state and increase the risk of note version conflicts.
+Before any Bear CLI command or `bear mcp-server` operation, make sure the Bear app is running. The CLI operates on Bear's local database; running it while the app is closed risks stale local state and note version conflicts.
 
 Use a background launch so ordinary CLI tasks do not unexpectedly steal focus:
 
@@ -57,7 +57,7 @@ If Bear cannot be launched or the process check still fails, report that Bear is
 
 ## Load Bear AGENTS Context
 
-Before reading any requested file, note, or attachment content through this skill, first try to find and read an `AGENTS` note in Bear. Treat it as local operating context for the requested read. If no relevant `AGENTS` note is found, continue with the user's requested read.
+Before reading any requested file, note, or attachment content through this skill, first find and read an `AGENTS` note in Bear if present. Treat it as local operating context for the requested read. If no relevant `AGENTS` note is found, continue with the user's requested read.
 
 ```bash
 bear search AGENTS --limit 10 --format json --fields id,title,tags,modified
@@ -151,7 +151,7 @@ bear show <note-id> --format json --fields hash,content
 printf "%s" "$NEW_CONTENT" | bear overwrite <note-id> --base <hash>
 ```
 
-Without `--base`, `overwrite` is unconditional and can overwrite changes made in Bear or another client. Use `--force` only after the user explicitly approves removing attachments that the safety gate reports would be dropped.
+Without `--base`, `overwrite` is unconditional and can overwrite changes made in Bear or another client. A fresh read or visual diff of the note is not a substitute for `--base`: only the hash passed at write time protects against a concurrent edit between read and write. If `overwrite --base` fails because the hash is stale, re-read the current note, surface the conflict to the user, and do not pass `--force` to bypass it without explicit approval. Use `--force` only after the user explicitly approves removing attachments that the safety gate reports would be dropped.
 
 ## Organize Notes
 
@@ -187,7 +187,7 @@ bear archive <note-id>
 bear restore <note-id>
 ```
 
-`trash` is a soft delete, `archive` hides a note from active notes, and `restore` returns a trashed or archived note to active notes. Identify the note clearly before moving it.
+`trash` is a soft delete, `archive` hides a note from active notes, and `restore` returns a trashed or archived note to active notes.
 
 ## Attachments
 

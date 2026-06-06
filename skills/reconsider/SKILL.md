@@ -1,7 +1,7 @@
 ---
 name: reconsider
 description: >-
-  Use before finalizing a non-trivial answer, recommendation, review, or decision to reconsider it and raise its quality, especially when shallow reasoning, context inertia, false framing, overconfidence, unfit analogy transfer, or an obvious-but-missed defect could distort the result. Trigger especially before applying external evidence, familiar frameworks, or comparisons to the user's specific request, and when the user asks to reconsider, double-check, take a second look, or sanity-check an answer. Reconsider the draft against its most likely failure mode, and use independent scrutiny only when it is useful and authorized.
+  Use before finalizing a non-trivial answer, recommendation, review, or decision to reconsider it and raise its quality, especially when shallow reasoning, context inertia, false framing, overconfidence, unfit analogy transfer, or an obvious-but-missed defect could distort the result. Trigger especially before applying external evidence, familiar frameworks, or comparisons to the user's specific request, and when the user asks to reconsider, double-check, take a second look, or sanity-check an answer.
 ---
 
 # Reconsider
@@ -10,7 +10,7 @@ description: >-
 
 Produce answers that survive scrutiny before they are delivered. The answer should address the current question, resist stale context and misleading frames, separate evidence from inference, and expose uncertainty when it changes the decision.
 
-Use this to reconsider a draft answer and raise its quality before responding. It improves judgment before responding; it is not permission to expand the user's requested work.
+This improves judgment before responding; it is not permission to expand the user's requested work.
 
 ## Success Criteria
 
@@ -25,7 +25,7 @@ A good reconsider pass:
 
 ## When To Use
 
-Use this skill for non-trivial explanations, recommendations, critiques, decisions, final answers after long work, and moments where the user asks for careful thought, skepticism, reconsideration, a second look, sanity checking, or an answer that can withstand scrutiny.
+Use this skill for non-trivial explanations, recommendations, critiques, decisions, final answers after long work, and when the user asks for careful thought, skepticism, reconsideration, a second look, sanity checking, or an answer that can withstand scrutiny.
 
 Consider independent scrutiny when:
 
@@ -47,14 +47,14 @@ Use the strongest evidence needed for the answer's risk:
 4. Current authoritative external sources.
 5. Authorized independent review from a subagent or separate session.
 
-Treat memory and prior context as clues, not proof, unless verified in the current turn. If a fact could have changed and correctness matters, refresh it from the most direct source. If refresh is impossible or out of scope, label the claim as unverified and state what would change the conclusion.
+Treat memory and prior context as clues, not proof, unless verified this turn. If a fact could have changed and correctness matters, refresh it from the most direct source; if refresh is impossible or out of scope, label the claim unverified and state what would change the conclusion.
 
 ## Pre-Answer Gate
 
-Before answering, run this compact pass:
+Before answering, run this pass:
 
 1. **Reset the request.** Identify what the user is asking now. Drop older goals and prior drafts that are not part of the latest request.
-2. **Choose verification level.** Decide whether the answer only needs local sanity checking, source/tool verification, or independent scrutiny.
+2. **Choose verification level.** Decide whether the answer only needs local sanity checking, source/tool verification, or independent scrutiny. When a wrong answer is high-cost or context-inertia risk is high, restating the draft's own reasoning or asserting confidence does not count as verification; use external evidence, a tool result, or independent scrutiny.
 3. **Locate evidence.** Mark which claims come from observed facts, cited sources, memory, user statements, or inference.
 4. **Challenge the frame.** Check whether the question assumes an unproven fact, imports stale context, or forces a false binary.
 5. **Attack the answer.** Ask one to three targeted challenge questions against the most likely failure mode:
@@ -78,7 +78,7 @@ Give the subagent only:
 
 Avoid giving the subagent the main agent's conclusion unless the task is explicitly to review a draft. For draft review, ask it to identify unsupported claims, stale assumptions, missing evidence, false frames, and the strongest counterargument.
 
-Use a separate `codex exec --ephemeral` or equivalent isolated run only when a stricter blind review is worth the additional cost and loss of session affordances.
+Use a separate `codex exec --ephemeral` or equivalent isolated run only when a stricter blind review justifies the added cost and lost session affordances.
 
 ## Output
 
