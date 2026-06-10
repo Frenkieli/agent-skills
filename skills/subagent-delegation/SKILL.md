@@ -232,6 +232,8 @@ Stop condition:
 
 For code edits, assign disjoint ownership. If disjoint ownership is impossible, use read-only agents first and keep edits local to the main agent.
 
+When several packets are independent, dispatch them in the same turn so the sub-agents run concurrently; spawning them one at a time serializes work the partition already made parallel.
+
 For verifier agents, include a rubric. A verifier asked only to "check if this is good" creates the appearance of quality control without useful signal.
 
 ### 5. Enforce The Non-Overlap Rule

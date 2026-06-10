@@ -1,6 +1,6 @@
 # Agent Skills
 
-Personal skills and workflows for Codex and GPT agents.
+Personal skills and workflows for coding agents such as Claude Code and Codex.
 
 ## Installation
 

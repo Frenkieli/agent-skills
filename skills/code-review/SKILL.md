@@ -1,7 +1,7 @@
 ---
 name: code-review
 description: >-
-  Review concrete code plan drafts, specs, diffs, and implementation shapes. Use for code-review requests, serious code-plan design critique, and judging whether a proposed direction is sound. Prioritize solution direction, premise validity, logic chain, constraints, alternatives, design shape, contracts, tests, local fit, and actionable findings. Near miss: use code-plan to create or revise plans; use code-scope-gate for pre-spec scope shaping.
+  Review concrete code plan drafts, specs, diffs, and implementation shapes. Use for code-review requests, serious code-plan design critique, and judging whether a proposed direction is sound. Near miss: use code-plan to create or revise plans; use code-scope-gate for pre-spec scope shaping.
 ---
 
 # Code Review
@@ -37,7 +37,7 @@ Incomplete behavior:
 
 ## Bar
 
-Volume is failure. Each finding names a concrete surface, the impact, and the smallest correction. Drop anything that wouldn't change the merge decision or follow-up plan. Cap nits (style/naming only) at three — if you have more, the bar is too low.
+Volume is failure, but the filter has a concrete floor: report every issue that could cause incorrect behavior, a broken contract, corrupted or inconsistent state, a test failure, or a misleading result. Below that floor, drop anything that wouldn't change the merge decision or follow-up plan. Each finding names a concrete surface, the impact, and the smallest correction. Cap nits (style/naming only) at three — if you have more, the bar is too low.
 
 Filter on severity and merge-relevance, not on your own confidence. Investigate fully, then decide what to report: surface a plausible correctness/contract/state issue even when you are unsure of it — flag the uncertainty and name what would confirm it, rather than dropping it silently.
 
@@ -47,7 +47,7 @@ For draft-plan reviews, corrections are plan changes (revised approach, added co
 
 ## Lenses
 
-Most reviews are inline — apply whichever lenses fit the change. When surfaces fan out or risk concentrates (multi-file, public API/CLI/schema/migration/persistence), dispatch focused sub-agents using the lens descriptions below as their prompts (consult `subagent-delegation` first). Sub-agents stay read-only, apply the attribution rule, and return concrete candidates with source pointers — silence is a valid output.
+Most reviews are inline — apply whichever lenses fit the change. When surfaces fan out or risk concentrates (multi-file, public API/CLI/schema/migration/persistence), dispatch focused sub-agents using the lens descriptions below as their prompts (consult `subagent-delegation` first). Sub-agents stay read-only, apply the attribution rule, and return concrete candidates with source pointers — silence is a valid output only when a genuine search found nothing. A finder's job is coverage, not filtering: it reports every candidate it finds, including uncertain and low-severity ones, each with a confidence level and estimated severity; filtering against the Bar happens in the main review and the synthesis critic, not in the finder.
 
 **Design shape.** Shallow interfaces, information leakage, tactical patches adding branches/modes/fallbacks without reducing underlying complexity, weak ownership boundaries, error handling that should be removed by design, layers that only forward calls. Use APOSD vocabulary ([references/aposd-complexity-review.md](references/aposd-complexity-review.md)) — every design finding names reader task + symptom (change amplification / cognitive load / unknown-unknown) + cause (dependency / obscurity). Reject "cleaner" / "more DRY" / "add comments" without that mapping.
 

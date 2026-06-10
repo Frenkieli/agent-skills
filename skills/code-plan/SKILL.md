@@ -29,20 +29,14 @@ Every plan is incomplete unless it includes:
 - risks, rabbit holes, assumptions, and pause conditions
 - a concrete stop condition
 
-Serious, uncertain, or design-risk plans also require:
+A plan is elevated-risk when it touches public contracts, schemas, persisted state, migrations, security boundaries, cross-module ownership, or irreversible or external side effects; when a fact that would change the approach is still assumed rather than verified; or when the user asks for deep or careful planning. Elevated-risk plans also require:
 
 - `Planning iteration` status: independent research, delegated research, design review, local review, or explicit skip reason
 - integration of any research or review findings into concrete scope, sequence, regression evidence, risks, checkpoints, pause conditions, or stop conditions
 - for material design-shape risk, a design critique through `code-review` or an equivalent local review, plus an explicit reason if the critique was skipped
 - a user decision question for unresolved regression gaps caused by insufficient project tests
 
-When the user triggers `design twice` after a plan, the follow-up is incomplete unless it includes:
-
-- the original plan frame being preserved: objective, scope, non-goals, constraints, acceptance bar, and authorization boundaries
-- at least two real design options for the material design choice, where the current plan may count as one option
-- comparison of the options through APOSD-style complexity evidence: change amplification, cognitive load, unknown-unknown risk, dependency, and obscurity
-- a recommendation to keep the plan, revise specific plan sections, or pause for one user decision
-- verification and regression impact for any recommended plan change
+When the user triggers `design twice` after a plan, the follow-up is incomplete unless it satisfies the Design Twice Follow-Up Gate below.
 
 Do not split the artifact into separate goal, spec, and plan documents unless the user asks. Keep one cohesive plan.
 
@@ -74,12 +68,7 @@ If the user wants to proceed without answers, record the assumptions under `Clar
 
 Activate this gate when the request mixes a desired outcome with a proposed implementation, the plan could add unrequested surface area, or a boundary change appears necessary or tempting.
 
-Required evidence before drafting:
-
-- the actual requested outcome is separated from candidate implementation ideas
-- unnecessary features, files, abstractions, dependencies, configuration, workflows, or adjacent refactors are deleted, deferred, reused, or explicitly left out
-- boundary changes are classified as avoided, authorized, or blocked pending user confirmation
-- the smallest sufficient approach is chosen before work slices are expanded
+Run the `code-scope-gate` triage (question → delete → simplify) instead of re-deriving scope rules here. The plan is incomplete until the triage separates the requested outcome from candidate implementations, names what was deleted, deferred, reused, or left out, classifies boundary changes as avoided, authorized, or blocked pending user confirmation, and chooses the smallest sufficient approach before work slices are expanded.
 
 Weak substitutes do not satisfy the gate: restating the user's proposed implementation as a requirement, saying "keep it simple" without naming what stays out, moving speculative work into the plan as optional implementation detail, or hiding public API, schema, persistence, security, deployment, or cross-module changes inside ordinary work slices.
 
@@ -273,29 +262,41 @@ Adapting imports, file layout, naming, formatting, framework conventions, local 
 
 ## Self-Review
 
-Before returning the plan, check:
+Before returning the plan, check for every plan:
 
 - Could an agent execute the plan without inventing the background, objective, boundaries, or order?
-- For serious or uncertain plans, did the main session draft enough context and use or explicitly skip useful independent research?
-- If delegated research was used, did the main session define the objective, scope, non-goals, and exact research questions before delegation?
-- If delegation was considered, did the plan rely on `subagent-delegation` for authorization and coordination?
-- Did each delegated finding change a concrete part of the final plan: scope, sequence, regression evidence, risk, checkpoint, pause condition, or stop condition?
-- Are any delegated tasks ceremonial, broad, unbounded, or pasted without integration? If so, remove or rewrite them into bounded evidence questions.
-- If the plan has design-shape risk, did `code-review` or an equivalent design critique inspect interface depth, information hiding, invariant/error ownership, and complexity pushed to callers?
-- Did design-review findings change the final plan, or does `Planning iteration` explain why no plan change was needed?
-- If the user triggered `design twice`, did the follow-up preserve the original plan frame, compare at least two real options, avoid strawmen, and map tradeoffs to APOSD complexity symptoms and causes?
-- If `design twice` recommends a change, did it update only the affected plan sections plus verification, regression evidence, risks, stop conditions, or pause conditions?
-- Does the final plan remain one cohesive executable plan rather than a bundle of sub-agent notes?
-- Does the plan explain why the recommended approach fits better than obvious alternatives?
-- If scope risk exists, does the plan name the actual requested outcome, what was deleted or deferred, and whether boundary changes are avoided, authorized, or blocked?
-- Could an agent treat a candidate implementation, speculative future feature, or adjacent refactor as required work? If yes, rewrite `Scope`, `Non-goals`, and `Proposed approach`.
 - Are acceptance results outcomes, not task completions?
-- Does every risky slice protect existing behavior with regression evidence, not only prove the new path?
-- If project tests are insufficient, does the plan ask the user to choose targeted behavior tests or end-to-end tests, with E2E recommended for web projects?
-- Is every risky work slice tied to evidence, containment, or a pause condition?
+- Does every risky slice protect existing behavior with regression evidence — not only prove the new path — and tie to evidence, containment, or a pause condition?
+- Does the plan explain why the recommended approach fits better than obvious alternatives?
 - Could an agent claim completion without running or reporting the stated verification? If yes, rewrite the stop condition.
 - If a hard gate applies, does the output contract require the gate's evidence rather than burying it in prose?
 - Is any section low-signal filler that should be removed or collapsed?
+
+When the plan is elevated-risk or used independent research or delegation:
+
+- Did the main session draft enough context, then use or explicitly skip useful independent research?
+- Did the main session define the objective, scope, non-goals, and exact research questions before delegating, and rely on `subagent-delegation` for authorization and coordination?
+- Did each delegated finding change a concrete part of the final plan: scope, sequence, regression evidence, risk, checkpoint, pause condition, or stop condition? Remove ceremonial, broad, unbounded, or unintegrated tasks, or rewrite them into bounded evidence questions.
+- Does the final plan remain one cohesive executable plan rather than a bundle of sub-agent notes?
+
+When the plan has design-shape risk:
+
+- Did `code-review` or an equivalent design critique inspect interface depth, information hiding, invariant/error ownership, and complexity pushed to callers?
+- Did design-review findings change the final plan, or does `Planning iteration` explain why no plan change was needed?
+
+When the user triggered `design twice`:
+
+- Did the follow-up preserve the original plan frame, compare at least two real options, avoid strawmen, and map tradeoffs to APOSD complexity symptoms and causes?
+- If it recommends a change, did it update only the affected plan sections plus verification, regression evidence, risks, stop conditions, or pause conditions?
+
+When scope risk exists:
+
+- Does the plan name the actual requested outcome, what was deleted or deferred, and whether boundary changes are avoided, authorized, or blocked?
+- Could an agent treat a candidate implementation, speculative future feature, or adjacent refactor as required work? If yes, rewrite `Scope`, `Non-goals`, and `Proposed approach`.
+
+When project tests are insufficient for the regression surface:
+
+- Does the plan ask the user to choose targeted behavior tests or end-to-end tests, with E2E recommended for web projects?
 
 ## Stop Rules
 
