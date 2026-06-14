@@ -67,9 +67,9 @@ If the user wants to proceed without answers, record the assumptions under `Clar
 
 Activate this gate when the request mixes a desired outcome with a proposed implementation, the plan could add unrequested surface area, or a boundary change appears necessary or tempting.
 
-Run the `code-scope-gate` triage (question → delete → simplify) instead of re-deriving scope rules here. The plan is incomplete until the triage separates the requested outcome from candidate implementations, names what was deleted, deferred, reused, or left out, classifies boundary changes as avoided, authorized, or blocked pending user confirmation, and chooses the smallest sufficient approach before work slices are expanded.
+Run the `code-scope-gate` triage (question → classify → clarify or delete → simplify) instead of re-deriving scope rules here. The plan is incomplete until the triage separates the requested outcome from candidate implementations, names ambiguous intended scope separately from deleted or deferred scope, names what was deleted, deferred, reused, or left out, classifies boundary changes as avoided, authorized, or blocked pending user confirmation, and chooses the smallest sufficient approach before work slices are expanded.
 
-Weak substitutes do not satisfy the gate: restating the user's proposed implementation as a requirement, saying "keep it simple" without naming what stays out, moving speculative work into the plan as optional implementation detail, or hiding public API, schema, persistence, security, deployment, or cross-module changes inside ordinary work slices.
+Weak substitutes do not satisfy the gate: restating the user's proposed implementation as a requirement, treating ambiguous intended scope as disposable unrequested scope, saying "keep it simple" without naming what stays out, moving speculative work into the plan as optional implementation detail, or hiding public API, schema, persistence, security, deployment, or cross-module changes inside ordinary work slices.
 
 Write the gate result into `Scope`, `Non-goals`, `Proposed approach`, `Pause conditions`, and `Stop condition`. Do not add a separate visible `Scope Gate` section unless the user explicitly asks for it or the boundary decision needs to be audited.
 
@@ -280,6 +280,7 @@ When the plan has design-shape risk:
 When scope risk exists:
 
 - Does the plan name the actual requested outcome, what was deleted or deferred, and whether boundary changes are avoided, authorized, or blocked?
+- Does the plan separate ambiguous intended scope from deleted/deferred scope, with a clarification question, assumption, pause condition, or learning step for anything that plausibly carries requested value?
 - Could an agent treat a candidate implementation, speculative future feature, or adjacent refactor as required work? If yes, rewrite `Scope`, `Non-goals`, and `Proposed approach`.
 
 When project tests are insufficient for the regression surface:

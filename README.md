@@ -26,9 +26,9 @@ Skills are grouped by primary mode.
 
 ### Code
 
-- [code-plan](skills/code-plan/SKILL.md): Write tiered, evidence-backed coding plans with objective, scope, proposed approach, ordered work, acceptance, regression evidence, verification, risks, pause conditions, and stop conditions, with an automatic design-twice adversarial pass before every plan is delivered.
-- [code-review](skills/code-review/SKILL.md): Review plan drafts, specs, diffs, and implementation shapes for direction soundness, premise validity, logic-chain gaps, alternatives, APOSD-style complexity, contracts, tests, implementation fit, and synthesis.
-- [code-scope-gate](skills/code-scope-gate/SKILL.md): Cross-workflow scope triage before planning, coding, debugging, review, or automation; separate requested outcomes from candidate implementations, delete unnecessary scope, and choose the next authorized action.
+- [code-plan](skills/code-plan/SKILL.md): Write tiered, evidence-backed coding plans with objective, scope, ambiguous intended scope, proposed approach, ordered work, acceptance, regression evidence, verification, risks, pause conditions, and stop conditions, with an automatic design-twice adversarial pass before every plan is delivered.
+- [code-review](skills/code-review/SKILL.md): Review plan drafts, specs, diffs, and implementation shapes for direction soundness, premise validity, high-potential preservation, boundary clarification, alternatives, APOSD-style complexity, contracts, tests, implementation fit, and synthesis.
+- [code-scope-gate](skills/code-scope-gate/SKILL.md): Cross-workflow scope triage before planning, coding, debugging, review, or automation; separate requested outcomes, candidate implementations, ambiguous intended scope, and boundary changes, then delete unnecessary surface and choose the next authorized action.
 - [code-test-strategy](skills/code-test-strategy/SKILL.md): Test-strategy gate for coding tasks; avoid test-driven production complexity, premature tests, and implementation-detail tests.
 
 ### Decision
