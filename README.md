@@ -38,6 +38,7 @@ Skills are grouped by primary mode.
 
 ### Knowledge
 
+- [agentic-document-workflow](skills/agentic-document-workflow/SKILL.md): Capture, route, and maintain the structured documents produced while collaborating with an AI — requirements, plans, tasking, decisions, and the execution cursor — so collaboration knowledge compounds across sessions. Owns the document system (types, ownership, naming, index, lifecycle, promotion, supersession, archive), not the content quality of a plan or task graph.
 - [workbench](skills/workbench/SKILL.md): Set up, resume, or repair a compact active workbench for long-horizon, multi-session or checkpointed work: loop entry, boundaries, gates, verification, decisions, numbered evidence, human-gate stops, and active-vs-archive routing. Avoid for one-session tasks; complete those directly.
 
 ### Meta
