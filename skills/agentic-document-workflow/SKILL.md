@@ -1,7 +1,7 @@
 ---
 name: agentic-document-workflow
 description: >-
-  Capture, route, and maintain the structured documents produced while collaborating with an AI — requirements, plans, tasking, decisions, and the execution cursor — so collaboration knowledge compounds across sessions instead of evaporating in chat history. Use when creating, placing, linking, promoting, superseding, archiving, or indexing one of these docs, or when setting up the document system for a project. Near miss: use code-plan to draft a plan's engineering content, code-tasking to turn a plan into ordered tasks, and workbench to run an execution loop with gates and evidence; this skill owns the document system those artifacts live in, not their content quality.
+  Capture, route, and maintain the structured documents produced while collaborating with an AI — requirements, plans, tasking, decisions, and the execution cursor — so collaboration knowledge compounds across sessions instead of evaporating in chat history. Use when creating, placing, linking, promoting, superseding, archiving, or indexing one of these docs, or when setting up the document system for a project. Near miss: use code-plan to draft a plan's engineering content, and code-tasking to turn a plan into ordered tasks; this skill owns the document system those artifacts live in, not their content quality.
 ---
 
 # Agentic Document Workflow
@@ -10,7 +10,7 @@ description: >-
 
 The collaboration document set is a context substrate: a fresh agent or a future you can orient from the files alone, every doc has exactly one home and one owner, stable outcomes outlive the task that produced them, overturned docs of any type remain inspectable as history, and each session makes the set richer rather than noisier. Chat history is not the record; the dated, front-mattered, linked, indexed, archived docs are.
 
-This skill owns the SYSTEM — doc types, ownership boundaries, front matter, naming, routing, index, version control, lifecycle, promotion, supersession, archive. It does not own the engineering quality of a plan (code-plan), the task graph (code-tasking), or the execution loop (workbench). Those producers emit a doc; this skill places, links, ages, supersedes, and retires it.
+This skill owns the SYSTEM — doc types, ownership boundaries, front matter, naming, routing, index, version control, lifecycle, promotion, supersession, archive. It does not own the engineering quality of a plan (code-plan) or the task graph (code-tasking). Those producers emit a doc; this skill places, links, ages, supersedes, and retires it.
 
 ## Activation
 

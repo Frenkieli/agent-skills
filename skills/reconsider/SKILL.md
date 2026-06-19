@@ -65,9 +65,9 @@ Before answering, run this pass:
 
 ## Independent Scrutiny
 
-When context is large or inertia risk is high, prefer an independent challenger before finalizing. Use `subagent-delegation` before any sub-agent operation; if delegation is not authorized or not worth the overhead, run the same challenge locally and record the skip reason only when it affects confidence.
+When context is large or inertia risk is high, prefer an independent challenger before finalizing. Use `agent-handoff` to delegate the challenger; if it is not worth the overhead, run the same challenge locally and record the skip reason only when it affects confidence.
 
-When an authorized sub-agent is used, use `fork_context=false` when available so the subagent receives the normal system and project context plus the task packet, but not the main thread's full conversation history or draft bias. Do not describe this as a completely clean context: global instructions, project rules, workspace state, and tool definitions may still be visible.
+When a sub-agent is used, use `fork_context=false` when available so the subagent receives the normal system and project context plus the task packet, but not the main thread's full conversation history or draft bias. Do not describe this as a completely clean context: global instructions, project rules, workspace state, and tool definitions may still be visible.
 
 Give the subagent only:
 
