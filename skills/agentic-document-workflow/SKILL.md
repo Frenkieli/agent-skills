@@ -59,7 +59,7 @@ Follow the repo's existing convention if one exists. Default layout (mirrors anc
 docs/
   requirements/                    YYYY-MM-DD-<slug>-requirement.md
   plans/                           YYYY-MM-DD-<slug>-plan.md
-  agent/tasking/  (or tasking/)    YYYY-MM-DD-<slug>-tasking.md
+  tasking/                         YYYY-MM-DD-<slug>-tasking.md
   agent/current.md                 active cursor (no front matter; rewrite-in-place)
   decisions/                       NNN-<slug>.md   (sequential, never renumbered)
   archive/                         YYYY-MM-DD-<slug>-{baseline,validation,...}.md
@@ -72,7 +72,7 @@ Date-prefixed incremental records for requirements, plans, tasking, archive. Seq
 
 ## Version Control Policy
 
-All docs — including the cursor and tasking packets — are tracked in version control. Do not gitignore `agent/current.md`, `agent/tasking/`, or any other workflow path. Tracking is load-bearing: cross-session handoff breaks without a committed cursor, the Supersession Gate's "preserve old body verbatim" relies on durable history, and archive consolidation that deletes originals is only safe because git holds the full history.
+All docs — including the cursor and tasking packets — are tracked in version control. Do not gitignore `agent/current.md`, `tasking/`, or any other workflow path. Tracking is load-bearing: cross-session handoff breaks without a committed cursor, the Supersession Gate's "preserve old body verbatim" relies on durable history, and archive consolidation that deletes originals is only safe because git holds the full history.
 
 The cursor rewrites in place every iteration; that churn is intentional, not noise to suppress — it is the cost of the cursor being the single current pointer. Commit it like any other doc.
 
