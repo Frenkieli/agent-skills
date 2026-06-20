@@ -16,10 +16,11 @@ Delegation is assumed authorized; spawn freely. Each member's contract — packe
 
 Fan out when a problem is worth decomposing into parallel coverage or independent verification: several modules, sources, or hypotheses to investigate; a multi-file or high-risk surface to review; an exhaustive hunt where one pass will miss the tail; or a decision that needs unbiased confirmation.
 
-Scale the team to the goal — under-building misses coverage, over-building burns tokens for no added confidence:
+Scale the structure to the stakes — under-building a high-stakes question is the more common failure, and the one a conservative executor falls into, because a thin fan-out still *looks* like a team:
 
 - "find anything off in here" → a few finders, single-pass verification.
 - "thoroughly audit this / I need to be confident" → a larger finder pool, multi-vote adversarial verification, and a synthesis pass.
+- An irreversible or high-stakes decision — architecture, a rewrite, a trade-off you will not revisit cheaply → a *multi-round* team, not one round of parallel angles: several independent candidate positions, each stress-tested by distinct adversarial lenses, then one synthesized ruling checked against real evidence. Its size is roughly positions × lenses, so a serious decision fans out wide. Gathering N research angles and writing them up is the characteristic under-build here — breadth of perspective is not a choice that survived attack (see Cross-Verify).
 
 Keep the work to one agent (`agent-handoff`) or local when it is a single indivisible unit, when the next step is a blocking critical-path decision the main agent must make now, or when the slices cannot be made disjoint and would edit shared state.
 
@@ -56,6 +57,8 @@ Verify **adversarially**: for each material finding, spawn one or more independe
 
 When a finding can fail in more than one way, give each verifier a **distinct lens** — correctness, security, does-it-actually-reproduce — rather than several identical skeptics. Diverse lenses catch failure modes that redundant ones are all blind to together.
 
+This discipline applies equally when the team's job is to **decide**, not to find. A candidate answer — an architecture, a recommendation, a chosen trade-off — is a hypothesis too. Generate several independent positions, then put *each* through multiple distinct critique lenses — does the data model actually hold, does it survive scale, does it fit the product — before synthesizing one ruling. Covering a question from several angles is not the same as a choice that survived attack: angles inform, lenses refute.
+
 ## Coverage Patterns
 
 Compose these as the task calls for; they are tools, not a fixed sequence:
@@ -80,6 +83,7 @@ Set limits before the loops start: max follow-up rounds, max verify/repair loops
 - An agent count picked before the problem was decomposed.
 - Slices with overlapping edit rights, or a cross-cutting invariant that no agent owns.
 - Findings accepted without an independent refutation pass.
+- A high-stakes or irreversible decision delivered from one round of parallel research angles — perspectives gathered, but no candidate position stress-tested by an independent adversary.
 - A barrier where a pipeline would do, leaving fast agents idle behind the slowest.
 - Discovery stopped after a single round on an unknown-size problem.
 - Reports pasted into the main context instead of synthesized into one result.
