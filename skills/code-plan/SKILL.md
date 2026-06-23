@@ -24,7 +24,7 @@ Every plan is incomplete unless it contains these, in this order. Fill each once
 4. `Scope` - included files, modules, routes, workflows, states, users, data, or environments, plus constraints and authorization boundaries.
 5. `Non-goals` - adjacent work and boundary changes that stay out.
 6. `Required context` - specific files, docs, tests, screenshots, issues, commands, traces, or source baselines to read first.
-7. `Planning iteration` - the Design Gate result, plus when useful: draft frame, independent or delegated research, or design review used or skipped, and findings integrated.
+7. `Planning iteration` - the Lean Review Gate and Design Gate results, plus when useful: draft frame, independent or delegated research, or design review used or skipped, and findings integrated.
 8. `Proposed approach` - the recommended direction and why it fits, aimed at the layer that owns the behavior rather than the symptom site (see Section Rules).
 9. `Work sequence` - ordered slices with purpose, touchpoints, dependencies, and per-slice proof, where any change with no independently-green intermediate is flagged as one indivisible slice rather than a faux-incremental sequence (see Section Rules).
 10. `Acceptance, regression evidence, and verification` - observable results that distinguish outcomes from tasks, preserved behaviors, thresholds, data sources, commands, artifacts, review gates, and coverage gaps.
@@ -36,9 +36,9 @@ Every plan is incomplete unless it contains these, in this order. Fill each once
 
 For small plans, collapse obvious sections, but keep `Objective`, `Scope` / `Non-goals`, `Proposed approach`, `Work sequence`, regression evidence, acceptance/verification, `Pause conditions`, and `Stop condition` explicit. Do not split the artifact into separate goal, spec, and plan documents unless the user asks.
 
-A plan is elevated-risk when it touches public contracts, schemas, persisted state, migrations, security boundaries, cross-module ownership, or irreversible or external side effects; when a fact that would change the approach is still assumed rather than verified; or when the user asks for deep or careful planning. Elevated-risk plans also require a `Planning iteration` status (independent research, delegated research, design review, local review, or explicit skip reason), integration of those findings into concrete scope, sequence, regression evidence, risks, checkpoints, pause conditions, or stop conditions, and a user decision question for unresolved regression gaps caused by insufficient project tests.
+A plan is elevated-risk when it touches public contracts, schemas, persisted state, migrations, security boundaries, cross-module ownership, or irreversible or external side effects; when a fact that would change the approach is still assumed rather than verified; or when the user asks for deep or careful planning. Elevated-risk plans also require a `Planning iteration` status (Lean Review Gate result, independent research, delegated research, design review, local review, or explicit skip reason), integration of those findings into concrete scope, sequence, regression evidence, risks, checkpoints, pause conditions, or stop conditions, and a user decision question for unresolved regression gaps caused by insufficient project tests.
 
-The Design Gate runs on every plan before it is returned.
+The Lean Review Gate runs after the draft on non-mechanical plans; the Design Gate runs after lean findings are integrated or explicitly skipped and before the plan is returned.
 
 ## Evidence Budget
 
@@ -67,6 +67,25 @@ Apply scope triage — question → classify → clarify or delete → simplify.
 Weak substitutes do not satisfy the gate: restating the user's proposed implementation as a requirement, treating ambiguous intended scope as disposable, "keep it simple" without naming what stays out, moving speculative work in as optional implementation detail, or hiding public API, schema, persistence, security, deployment, or cross-module changes inside ordinary slices.
 
 Write the result into `Scope`, `Non-goals`, `Proposed approach`, `Pause conditions`, and `Stop condition`; do not add a separate visible scope section unless the user asks. If an unauthorized boundary change is required, take the conservative path: a no-boundary-change alternative, one user decision question, or a pause condition before that work begins.
+
+## Lean Review Gate
+
+Activate after a draft plan frame exists and before the Design Gate when the plan is elevated-risk, broad, speculative, a refactor or migration, cross-module, or likely to add owned surface: new abstractions, files, dependencies, fallback paths, compatibility shims, feature flags, configuration, schemas, APIs, generated artifacts, or test scaffolding. Also activate when the user asks for lean code, Code Lean, YAGNI, minimal implementation, fewer dependencies, or avoiding over-engineering.
+
+For a small mechanical plan with one viable shape and no meaningful new owned surface, record a one-line skip reason in `Planning iteration` instead of delegating.
+
+Required before the plan is returned:
+
+- a draft frame for review: `Objective`, `Scope`, `Non-goals`, proposed owner and approach, suspected owned surface, work sequence, and verification or regression evidence
+- one bounded sub-agent pass using `code-lean`, when sub-agents are available, that reviews only for removable scope, existing capability reuse, unnecessary abstractions, dependencies, compatibility paths, extra files, and thinner verification that still protects the same public boundary
+- main-agent integration of each actionable finding into `Scope`, `Non-goals`, `Proposed approach`, `Work sequence`, `Acceptance, regression evidence, and verification`, `Risks and rabbit holes`, `Pause conditions`, or `Stop condition`
+- a compact `Planning iteration` note naming accepted reductions, rejected reductions and the boundary reason, or the skip reason
+
+The sub-agent task is critique-only. It does not own the plan, choose a new objective, weaken explicit requirements, move the behavior to a symptom site, change public contracts, delete quality boundaries, or reduce regression evidence below the risk surface.
+
+If sub-agents are unavailable, run the same `code-lean` review inline and record `sub-agent unavailable` in `Planning iteration`. If the leaner path would drop a plausible requested outcome, weaken validation, error handling, security, accessibility, calibration, or regression evidence, reject that finding and name the protected boundary. If the leaner path requires a boundary change, user decision, or evidence not yet available, add a pause condition or blocker instead of silently narrowing the plan.
+
+Weak substitutes do not satisfy this gate: "keep it simple" self-talk, asking a sub-agent to broadly review or rewrite the plan, delegating planning ownership, pasting an unintegrated lean report, accepting the smallest absolute edit when it is a symptom patch, deleting tests or checks without equivalent public-boundary evidence, or treating a speculative abstraction as required work because it already appeared in the draft.
 
 ## Section Rules
 
@@ -104,7 +123,7 @@ Call out what could derail execution — hidden coupling, stale docs, migration 
 
 ## Design Gate
 
-Run on every plan after the draft is complete and before it is returned; it is not user-triggered. The pass is adversarial — try to defeat the drafted design shape with a materially different alternative instead of confirming it. Keep the plan frame fixed (objective, scope, non-goals, constraints, acceptance bar, regression bar, authorization boundaries); the pass reviews design shape, it does not restart planning.
+Run on every plan after the draft is complete, after the Lean Review Gate has been integrated or skipped, and before the plan is returned; it is not user-triggered. The pass is adversarial — try to defeat the drafted design shape with a materially different alternative instead of confirming it. Keep the plan frame fixed (objective, scope, non-goals, constraints, acceptance bar, regression bar, authorization boundaries); the pass reviews design shape, it does not restart planning.
 
 Required before the plan is returned:
 
@@ -153,6 +172,8 @@ Before returning the plan, check each; any gap a check reveals leaves the plan i
 - Does the approach change the OWNER of the behavior, or only the site where the symptom appears? A fix that would have to be repeated at many call sites to be correct is a symptom patch — re-aim it at the owner.
 - Does any slice claim an independently-green intermediate that does not exist? Plan an irreducible change as one cut; if a compatibility path is proposed, is the delete-old contract step present and terminal?
 - Does every risky slice protect existing behavior with regression evidence, tied to evidence, containment, or a pause condition?
+- Did the Lean Review Gate run or record a valid skip reason, and did the main session integrate accepted findings instead of pasting a separate report?
+- Did any lean reduction sacrifice the requested outcome, the behavior owner, a quality boundary, an authorized contract, or public-boundary regression evidence?
 - Did the Design Gate weigh at least two real options (or record that none exist) with tradeoffs mapped to APOSD symptoms in `Planning iteration`, revising only the affected sections while the plan frame stayed fixed?
 - If a hard gate applies, does the output contract require its evidence rather than burying it in prose? Is any section low-signal filler that should be removed or collapsed?
 
@@ -164,7 +185,7 @@ When project tests are insufficient for the regression surface: does the plan as
 
 ## Stop Rules
 
-Stop when the user has one executable plan that passed the Design Gate, the required `Test gap decision` question for unresolved regression gaps, the next narrow clarification question, or a blocker list naming which missing facts prevent a faithful plan.
+Stop when the user has one executable plan that passed the Lean Review Gate or recorded a valid skip reason, passed the Design Gate, the required `Test gap decision` question for unresolved regression gaps, the next narrow clarification question, or a blocker list naming which missing facts prevent a faithful plan.
 
 When scope risk is unresolved, stop only after the plan names the conservative no-boundary-change path, the user decision needed, or the pause condition that blocks expansion. When independent or delegated research is used, stop only after the final plan integrates the relevant findings and names unresolved evidence gaps, waived risks, or user decisions — not with unintegrated notes unless the user asked for raw research output.
 
