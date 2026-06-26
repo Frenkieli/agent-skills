@@ -1,0 +1,16 @@
+{
+  "name": "plimeor",
+  "description": "Plimeor agent skills: evidence-backed code planning, review, tasking, delegation, context engineering, and writing skills",
+  "author": {
+    "name": "frenkie",
+    "email": "sd789852t@gmail.com"
+  },
+  "keywords": [
+    "skills",
+    "code-plan",
+    "code-review",
+    "delegation",
+    "context-engineering",
+    "writing"
+  ]
+}

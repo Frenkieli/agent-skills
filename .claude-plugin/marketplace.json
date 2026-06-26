@@ -1,0 +1,15 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "plimeor",
+  "owner": {
+    "name": "frenkie",
+    "email": "sd789852t@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "plimeor",
+      "source": "./",
+      "description": "Plimeor agent skills: code planning, review, tasking, delegation, context engineering, and writing"
+    }
+  ]
+}
